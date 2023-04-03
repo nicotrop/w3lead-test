@@ -1039,9 +1039,13 @@ summary::-webkit-details-marker {
 }
 
 @media screen and (min-width: 750px) {
+  .custom-sliders {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
   .grid__item {
-    width: calc(25% - var(--grid-desktop-horizontal-spacing) * 3 / 4);
-    max-width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
+    width: 10%;
   }
 }
 
