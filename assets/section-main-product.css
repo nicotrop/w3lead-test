@@ -1106,6 +1106,24 @@ a.product__text {
   display: none;
 }
 
+.custom-badge-parent {
+  position: relative;
+}
+
+.custom-product-badge {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 10px;
+  background-color: white;
+  width: 96px;
+  text-align: center;
+  border-radius: 15px;
+  position: absolute;
+  top: 10px;
+  right: 1rem;
+  z-index: 10;
+}
+
 @media screen and (min-width: 990px) {
   .thumbnail-list {
     grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -1115,14 +1133,18 @@ a.product__text {
   .custom-product-media-wrapper {
     display: flex;
     flex-direction: row-reverse;
+    justify-content: start;
+    gap: 24px;
+    height: 690px;
   }
 
   .custom-product-left-side {
-    width: 75%;
+    width: 100%;
+    height: 100%;
   }
 
   .custom-product-right-side {
-    width: 25%;
+    width: 110px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1264,27 +1286,27 @@ a.product__text {
 }
 
 .thumbnail[aria-current]:focus-visible {
-  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
-    0 0 0rem 0.5rem rgba(var(--color-foreground), 0.5);
+  /* box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
+    0 0 0rem 0.5rem rgba(var(--color-foreground), 0.5); */
 }
 
 .thumbnail[aria-current]:focus,
 .thumbnail.focused {
-  outline: 0;
+  /* outline: 0;
   box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
-    0 0 0rem 0.5rem rgba(var(--color-foreground), 0.5);
+    0 0 0rem 0.5rem rgba(var(--color-foreground), 0.5); */
 }
 
 /* outline styling for Windows High Contrast Mode */
 @media (forced-colors: active) {
   .thumbnail[aria-current]:focus,
   .thumbnail.focused {
-    outline: transparent solid 1px;
+    /* outline: transparent solid 1px; */
   }
 }
 .thumbnail[aria-current]:focus:not(:focus-visible) {
-  outline: 0;
-  box-shadow: 0 0 0 0.1rem rgb(var(--color-foreground));
+  /* outline: 0;
+  box-shadow: 0 0 0 0.1rem rgb(var(--color-foreground)); */
 }
 
 .thumbnail img {
@@ -1481,6 +1503,12 @@ a.product__text {
 .product-media-container.constrain-height.media-fit-contain {
   --contained-width: calc(var(--constrained-height) * var(--aspect-ratio));
   width: min(var(--contained-width), 100%);
+}
+
+@media screen and (min-width: 990px) {
+  .product-media-container.constrain-height.media-fit-contain {
+    width: min(var(--contained-width), 100%);
+  }
 }
 
 .product-media-container .media {
