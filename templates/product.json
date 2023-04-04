@@ -3,13 +3,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
         "title": {
           "type": "title",
           "settings": {
@@ -33,39 +26,49 @@
             "picker_type": "button"
           }
         },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {
-          }
-        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true
+            "show_dynamic_checkout": false
           }
         },
-        "description": {
-          "type": "description",
+        "72f61939-56eb-4548-9073-7b82f5094ba6": {
+          "type": "collapsible_tab",
           "settings": {
+            "heading": "Description",
+            "icon": "none",
+            "content": "{{ product.metafields.custom.product_title | metafield_tag }}",
+            "page": ""
           }
         },
-        "share": {
-          "type": "share",
+        "38316236-8556-4ae7-9f70-73f13da4d9aa": {
+          "type": "collapsible_tab",
           "settings": {
-            "share_label": "Share"
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "content": "",
+            "page": ""
+          }
+        },
+        "fa559c6a-256b-42dd-8ec9-c31db69ebea5": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "content": "",
+            "page": ""
           }
         }
       },
       "block_order": [
-        "vendor",
         "title",
         "subtitle",
         "price",
         "variant_picker",
-        "quantity_selector",
         "buy_buttons",
-        "description",
-        "share"
+        "72f61939-56eb-4548-9073-7b82f5094ba6",
+        "38316236-8556-4ae7-9f70-73f13da4d9aa",
+        "fa559c6a-256b-42dd-8ec9-c31db69ebea5"
       ],
       "settings": {
         "enable_sticky_info": true,
