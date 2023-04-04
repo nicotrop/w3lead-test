@@ -53,9 +53,9 @@
         "fa559c6a-256b-42dd-8ec9-c31db69ebea5": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "content": "",
+            "heading": "Livraison & Retour",
+            "icon": "none",
+            "content": "<p>{{ product.metafields.custom.shipping | metafield_tag }}<\/p>",
             "page": ""
           }
         }
