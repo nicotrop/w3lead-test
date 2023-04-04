@@ -44,9 +44,9 @@
         "38316236-8556-4ae7-9f70-73f13da4d9aa": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "content": "",
+            "heading": "Composition & Entretien",
+            "icon": "none",
+            "content": "<p>{{ product.metafields.custom.composition | metafield_tag }}<\/p>",
             "page": ""
           }
         },
