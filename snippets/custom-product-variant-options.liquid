@@ -1,14 +1,17 @@
 {% comment %}
   Renders product variant options
+
   Accepts:
   - product: {Object} product object.
   - option: {Object} current product_option object.
   - block: {Object} block object.
+
+
   Usage:
   {% render 'product-variant-options',
-    product: product,
-    option: option,
-    block: block
+  product: product,
+  option: option,
+  block: block
   %}
 {% endcomment %}
 {%- liquid
@@ -16,13 +19,25 @@
   assign variants_option1_arr = product.variants | map: 'option1'
   assign variants_option2_arr = product.variants | map: 'option2'
   assign variants_option3_arr = product.variants | map: 'option3'
-
   assign product_form_id = 'product-form-' | append: section.id
--%}
+  assign variant_colors = product.variants.metafields | map: 'custom.product_color' 
+  -%}
+
+{% capture color_list %}
+  {% for variant in product.variants %}
+    {{ variant.metafields.custom.product_color }}
+  {% endfor %}
+{% endcapture %}
+
+{% assign color_list = color_list | split: ' ' | uniq | join: ' ' %}
+{% assign color_arr = color_list | split: ' ' %}
+
 
 {%- for value in option.values -%}
   {%- liquid
     assign option_disabled = true
+
+    assign current_color = color_arr[forloop.index0]
 
     for option1_name in variants_option1_arr
       case option.position
@@ -40,6 +55,7 @@
           endif
       endcase
     endfor
+
   -%}
 
   {%- if block.settings.picker_type == 'button' -%}
@@ -50,23 +66,32 @@
       value="{{ value | escape }}"
       form="{{ product_form_id }}"
       {% if option.selected_value == value %}
-        checked
+      checked
       {% endif %}
       {% if option_disabled %}
-        class="disabled"
-      {% endif %}
-    >
-    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
-      {{ value -}}
-      <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
-    </label>
+      class="disabled"
+      {% endif %}>
+    {% unless option.name == "Couleur" %}
+      <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="custom-size-input">
+        {{ value -}}
+        <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+      </label>
+    {% else %}
+      <label
+        for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+        style="background-color: {{ current_color }}; padding: 2px;"
+        class="custom-color-input">
+        <span class="color"></span>
+        <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+      </label>
+    {% endunless %}
+
   {%- elsif block.settings.picker_type == 'dropdown' -%}
     <option
       value="{{ value | escape }}"
       {% if option.selected_value == value %}
-        selected="selected"
-      {% endif %}
-    >
+      selected="selected"
+      {% endif %}>
       {% if option_disabled -%}
         {{- 'products.product.value_unavailable' | t: option_value: value -}}
       {%- else -%}

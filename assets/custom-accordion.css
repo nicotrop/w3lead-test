@@ -1,0 +1,44 @@
+.coll-box {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.coll-box-header {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coll-box-header h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.coll-box-text {
+  max-height: 0;
+  overflow: scroll;
+  transition: max-height 0.5s ease;
+}
+
+.coll-box-text p {
+  padding-top: 1rem;
+  line-height: 1.6;
+  font-size: 1.4rem;
+}
+
+.coll-box.active .coll-box-text {
+  max-height: 300px;
+  padding: 2rem 0;
+}
+
+.coll-box.active svg {
+  transform: rotate(180deg);
+}
+
+svg {
+  transition: transform 0.5s ease;
+}

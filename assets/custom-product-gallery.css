@@ -158,11 +158,6 @@ button {
   font-size: 32px;
 }
 
-.fa:hover {
-  transition: 1s;
-  color: white;
-}
-
 .fancybox__container {
   background-color: black;
 }

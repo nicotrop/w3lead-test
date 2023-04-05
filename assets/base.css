@@ -665,9 +665,6 @@ h6:empty {
   margin-left: 1rem;
 }
 
-a:not([href]) {
-  cursor: not-allowed;
-}
 
 .circle-divider::after {
   content: "\2022";
@@ -1362,7 +1359,7 @@ button.shopify-payment-button__button--unbranded {
   left: 0;
   z-index: -1;
   border-radius: var(--buttons-radius-outset);
-  box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset)
+  /* box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) */
     var(--shadow-blur-radius) rgba(var(--color-shadow), var(--shadow-opacity));
 }
 
@@ -1378,10 +1375,10 @@ button.shopify-payment-button__button--unbranded {
   left: var(--buttons-border-width);
   z-index: 1;
   border-radius: var(--buttons-radius);
-  box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
+  /* box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
       rgba(var(--color-button-text), var(--border-opacity)),
     0 0 0 var(--buttons-border-width)
-      rgba(var(--color-button), var(--alpha-button-background));
+      rgba(var(--color-button), var(--alpha-button-background)); */
   transition: box-shadow var(--duration-short) ease;
 }
 

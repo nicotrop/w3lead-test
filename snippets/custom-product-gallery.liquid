@@ -1,7 +1,6 @@
 {% for image in product.images %}{% endfor %}
 
 <div class="custom-gallery-wrapper">
-  <!-- Image container of the image slider -->
   <div class="custom-image-container">
     {% for image in product.images %}
       <div class="slide">
@@ -26,22 +25,13 @@
         </a>
         </button>
       {% endfor %}
-      {% comment %} <button class="thumbnail" onclick="activeSlide(1)">
-        <img class="custom-img" src="https://www.geeksforgeeks.org/wp-content/uploads/html-768x256.png">
-        </button>
-        <button class="thumbnail" onclick="activeSlide(2)">
-        <img class="custom-img" src="https://www.geeksforgeeks.org/wp-content/uploads/CSS-768x256.png">
-        </button>
-        <button class="thumbnail" onclick="activeSlide(3)">
-        <img class="custom-img" src="https://www.geeksforgeeks.org/wp-content/uploads/jquery-banner.png">
-      </button> {% endcomment %}
     </div>
 
     <a class="previous" onclick="moveSlides(-1)">
-      <i class="fa fa-chevron-circle-left"></i>
+      {% render 'icon-custom-chevron-left' %}
     </a>
     <a class="next" onclick="moveSlides(1)">
-      <i class="fa fa-chevron-circle-right"></i>
+      {% render 'icon-custom-chevron-right' %}
     </a>
   </div>
 </div>
