@@ -5,8 +5,7 @@
       "blocks": {
         "title": {
           "type": "title",
-          "settings": {
-          }
+          "settings": {}
         },
         "subtitle": {
           "type": "text",
@@ -17,8 +16,7 @@
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -46,7 +44,7 @@
           "settings": {
             "heading": "Composition & Entretien",
             "icon": "none",
-            "content": "<p>{{ product.metafields.custom.composition | metafield_tag }}<\/p>",
+            "content": "<p>{{ product.metafields.custom.composition | metafield_tag }}</p>",
             "page": ""
           }
         },
@@ -55,7 +53,7 @@
           "settings": {
             "heading": "Livraison & Retour",
             "icon": "none",
-            "content": "<p>{{ product.metafields.custom.shipping | metafield_tag }}<\/p>",
+            "content": "<p>{{ product.metafields.custom.shipping | metafield_tag }}</p>",
             "page": ""
           }
         }
@@ -101,10 +99,14 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "custom-newsletter": {
+      "type": "custom-newsletter",
+      "settings": {
+        "heading": "Newsletter",
+        "subheading": "Subscribe to our newsletter and get 10% off your first purchase"
+      }
     }
   },
-  "order": [
-    "main",
-    "related-products"
-  ]
+  "order": ["main", "related-products", "custom-newsletter"]
 }
