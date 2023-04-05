@@ -1151,13 +1151,13 @@ a.product__text {
     justify-content: center;
   }
 
-  /* .product--medium .thumbnail-list {
+  .product--medium .thumbnail-list {
     grid-template-columns: repeat(5, 1fr);
   }
 
   .product--large .thumbnail-list {
     grid-template-columns: repeat(6, 1fr);
-  } */
+  }
 }
 
 @media screen and (max-width: 749px) {

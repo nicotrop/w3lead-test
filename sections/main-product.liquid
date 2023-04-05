@@ -37,17 +37,10 @@
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'custom-product-gallery.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'custom-accordion.js' | asset_url }}" defer="defer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
 
-  {% if section.settings.image_zoom == 'hover' %}
-    <script
-      id="EnableZoomOnHover-main"
-      src="{{ 'magnify.js' | asset_url }}"
-      defer="defer"></script>
-  {% endif %}
   {%- if request.design_mode -%}
     <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
@@ -55,16 +48,16 @@
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
 
-    <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} custom-grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
-    {% comment %} <div class="grid__item product__media-wrapper{% if section.settings.media_position == 'right' %} medium-hide large-up-hide{% endif %}"> {% endcomment %}
+  {% comment %} {{ settings.header.info | json }} {% endcomment %}
+
+  <div class="product product--large custom-grid">
     {% render 'custom-product-gallery' %}
-    {% comment %} </div> {% endcomment %}
-    <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}">
+    <div class="custom-product-wrapper custom-grid-item">
       <product-info
         id="ProductInfo-{{ section.id }}"
         data-section="{{ section.id }}"
         data-url="{{ product.url }}"
-        class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}">
+        class="product__info-container custom-section-sticky">
         {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
         {%- for block in section.blocks -%}
@@ -529,11 +522,11 @@
         </a>
       </product-info>
     </div>
-    {%- if section.settings.media_position == 'right' -%}
+    {% comment %} {%- if section.settings.media_position == 'right' -%}
       {% comment %} Duplicate gallery to display after product content on tablet/desktop breakpoint {% endcomment %}
-      <div class="grid__item product__media-wrapper small-hide">{% comment %} {% render 'product-media-gallery', variant_images: variant_images, is_duplicate: true %} {% endcomment %}
+      <div class="grid__item product__media-wrapper small-hide" style="border: solid 2px red;">{% comment %} {% render 'product-media-gallery', variant_images: variant_images, is_duplicate: true %} {% endcomment %}
       </div>
-    {%- endif -%}
+    {%- endif -%} {% endcomment %}
   </div>
 
   {% render 'product-media-modal' variant_images: variant_images %}
@@ -592,13 +585,13 @@
       
 
 
-      const hiddenInput = document.querySelector('#      {{ product_form_id }} input[name="id"]');
+      const hiddenInput = document.querySelector('#                             {{ product_form_id }} input[name="id"]');
       const noScriptInputWrapper = document.createElement('div');
-      const variantSwitcher = document.querySelector('variant-radios[data-section="      {{ section.id }} "]') || document.querySelector('variant-selects[data-section="      {{ section.id }} "]');
-      noScriptInputWrapper.innerHTML = document.querySelector('.product-form__noscript-wrapper-      {{ section.id }}').textContent;
+      const variantSwitcher = document.querySelector('variant-radios[data-section="                             {{ section.id }} "]') || document.querySelector('variant-selects[data-section="                             {{ section.id }} "]');
+      noScriptInputWrapper.innerHTML = document.querySelector('.product-form__noscript-wrapper-                             {{ section.id }}').textContent;
       variantSwitcher.outerHTML = noScriptInputWrapper.outerHTML;
 
-      document.querySelector('#Variants-      {{ section.id }}').addEventListener('change', function(event) {
+      document.querySelector('#Variants-                             {{ section.id }}').addEventListener('change', function(event) {
         hiddenInput.value = event.currentTarget.value;
       });
     });
@@ -615,8 +608,8 @@
   <script type="application/ld+json">
     {
     "@context": "http://schema.org/",
-                              "@type": "Product",
-                              "name": {{ product.title | json }},
+                                                                                                                          "@type": "Product",
+                                                                                                                          "name": {{ product.title | json }},
     "url": {{ request.origin | append: product.url | json }},
     {% if seo_media -%}
       "image": [
@@ -629,7 +622,7 @@
     {%- endif %}
     "brand": {
     "@type": "Brand",
-                                "name": {{ product.vendor | json }}
+                                                                                                                            "name": {{ product.vendor | json }}
     },
     "offers": [
     {%- for variant in product.variants -%}
@@ -1734,155 +1727,6 @@
             "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
           }
         ]
-      }
-    ],
-    "settings": [
-      {
-        "type": "checkbox",
-        "id": "enable_sticky_info",
-        "default": true,
-        "label": "t:sections.main-product.settings.enable_sticky_info.label"
-      },
-      {
-        "type": "header",
-        "content": "t:sections.main-product.settings.header.content",
-        "info": "t:sections.main-product.settings.header.info"
-      },
-      {
-        "type": "select",
-        "id": "media_size",
-        "options": [
-          {
-            "value": "small",
-            "label": "t:sections.main-product.settings.media_size.options__1.label"
-          }, {
-            "value": "medium",
-            "label": "t:sections.main-product.settings.media_size.options__2.label"
-          }, {
-            "value": "large",
-            "label": "t:sections.main-product.settings.media_size.options__3.label"
-          }
-        ],
-        "default": "large",
-        "label": "t:sections.main-product.settings.media_size.label",
-        "info": "t:sections.main-product.settings.media_size.info"
-      },
-      {
-        "type": "checkbox",
-        "id": "constrain_to_viewport",
-        "default": true,
-        "label": "t:sections.main-product.settings.constrain_to_viewport.label"
-      }, {
-        "type": "select",
-        "id": "media_fit",
-        "options": [
-          {
-            "value": "contain",
-            "label": "t:sections.main-product.settings.media_fit.options__1.label"
-          }, {
-            "value": "cover",
-            "label": "t:sections.main-product.settings.media_fit.options__2.label"
-          }
-        ],
-        "default": "contain",
-        "label": "t:sections.main-product.settings.media_fit.label"
-      }, {
-        "type": "select",
-        "id": "gallery_layout",
-        "options": [
-          {
-            "value": "stacked",
-            "label": "t:sections.main-product.settings.gallery_layout.options__1.label"
-          }, {
-            "value": "columns",
-            "label": "t:sections.main-product.settings.gallery_layout.options__2.label"
-          }, {
-            "value": "thumbnail",
-            "label": "t:sections.main-product.settings.gallery_layout.options__3.label"
-          }, {
-            "value": "thumbnail_slider",
-            "label": "t:sections.main-product.settings.gallery_layout.options__4.label"
-          }
-        ],
-        "default": "stacked",
-        "label": "t:sections.main-product.settings.gallery_layout.label"
-      }, {
-        "type": "select",
-        "id": "media_position",
-        "options": [
-          {
-            "value": "left",
-            "label": "t:sections.main-product.settings.media_position.options__1.label"
-          }, {
-            "value": "right",
-            "label": "t:sections.main-product.settings.media_position.options__2.label"
-          }
-        ],
-        "default": "left",
-        "label": "t:sections.main-product.settings.media_position.label",
-        "info": "t:sections.main-product.settings.media_position.info"
-      }, {
-        "type": "select",
-        "id": "image_zoom",
-        "options": [
-          {
-            "value": "lightbox",
-            "label": "t:sections.main-product.settings.image_zoom.options__1.label"
-          }, {
-            "value": "none",
-            "label": "t:sections.main-product.settings.image_zoom.options__3.label"
-          }
-        ],
-        "default": "lightbox",
-        "label": "t:sections.main-product.settings.image_zoom.label"
-      }, {
-        "type": "select",
-        "id": "mobile_thumbnails",
-        "options": [
-          {
-            "value": "columns",
-            "label": "t:sections.main-product.settings.mobile_thumbnails.options__1.label"
-          }, {
-            "value": "show",
-            "label": "t:sections.main-product.settings.mobile_thumbnails.options__2.label"
-          }, {
-            "value": "hide",
-            "label": "t:sections.main-product.settings.mobile_thumbnails.options__3.label"
-          }
-        ],
-        "default": "hide",
-        "label": "t:sections.main-product.settings.mobile_thumbnails.label"
-      }, {
-        "type": "checkbox",
-        "id": "hide_variants",
-        "default": false,
-        "label": "t:sections.main-product.settings.hide_variants.label"
-      }, {
-        "type": "checkbox",
-        "id": "enable_video_looping",
-        "default": false,
-        "label": "t:sections.main-product.settings.enable_video_looping.label"
-      }, {
-        "type": "header",
-        "content": "t:sections.all.padding.section_padding_heading"
-      }, {
-        "type": "range",
-        "id": "padding_top",
-        "min": 0,
-        "max": 100,
-        "step": 4,
-        "unit": "px",
-        "label": "t:sections.all.padding.padding_top",
-        "default": 36
-      }, {
-        "type": "range",
-        "id": "padding_bottom",
-        "min": 0,
-        "max": 100,
-        "step": 4,
-        "unit": "px",
-        "label": "t:sections.all.padding.padding_bottom",
-        "default": 36
       }
     ]
   }
