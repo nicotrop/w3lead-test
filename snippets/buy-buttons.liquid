@@ -62,13 +62,18 @@
               disabled
             {% endif %}
           >
-            <span>
-              {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
-                {{ 'products.product.sold_out' | t }}
-              {%- else -%}
-                {{ 'products.product.add_to_cart' | t }}
-              {%- endif -%}
-            </span>
+            <div style="display: flex; gap: 1rem;">
+              <span>
+                {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- else -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- endif -%}
+              </span>
+              <span>
+                {{ product.price | money_with_currency }}
+              </span>
+            </div>
             <div class="loading-overlay__spinner hidden">
               <svg
                 aria-hidden="true"

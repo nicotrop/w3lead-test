@@ -243,13 +243,7 @@
                   {% render 'icon-custom-chevron-down' %}
                 </div>
                 <div class="coll-box-text">
-                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique, ea porro aspernatur expedita
-                    quis placeat corrupti, recusandae mollitia modi sunt vero obcaecati. Aperiam sint dolor asperiores
-                                        neque ex! Maxime id nulla soluta a eos, quis, ad dolore esse modi nemo odit sunt rerum illo enim
-                                        reiciendis voluptatibus veritatis omnis! Aperiam enim eius harum at beatae fuga quod cupiditate
-                                        fugiat assumenda, deleniti debitis magni. Unde facere non consectetur pariatur minima, adipisci
-                                        magnam quae vel eum nesciunt.
-                  </p>
+                  <p>{{ block.settings.content }} {{ block.settings.page.content }}</p>
                 </div>
               </div>
               {%- when 'quantity_selector' -%}
@@ -598,13 +592,13 @@
       
 
 
-      const hiddenInput = document.querySelector('#    {{ product_form_id }} input[name="id"]');
+      const hiddenInput = document.querySelector('#      {{ product_form_id }} input[name="id"]');
       const noScriptInputWrapper = document.createElement('div');
-      const variantSwitcher = document.querySelector('variant-radios[data-section="    {{ section.id }} "]') || document.querySelector('variant-selects[data-section="    {{ section.id }} "]');
-      noScriptInputWrapper.innerHTML = document.querySelector('.product-form__noscript-wrapper-    {{ section.id }}').textContent;
+      const variantSwitcher = document.querySelector('variant-radios[data-section="      {{ section.id }} "]') || document.querySelector('variant-selects[data-section="      {{ section.id }} "]');
+      noScriptInputWrapper.innerHTML = document.querySelector('.product-form__noscript-wrapper-      {{ section.id }}').textContent;
       variantSwitcher.outerHTML = noScriptInputWrapper.outerHTML;
 
-      document.querySelector('#Variants-    {{ section.id }}').addEventListener('change', function(event) {
+      document.querySelector('#Variants-      {{ section.id }}').addEventListener('change', function(event) {
         hiddenInput.value = event.currentTarget.value;
       });
     });
@@ -621,8 +615,8 @@
   <script type="application/ld+json">
     {
     "@context": "http://schema.org/",
-                      "@type": "Product",
-                      "name": {{ product.title | json }},
+                              "@type": "Product",
+                              "name": {{ product.title | json }},
     "url": {{ request.origin | append: product.url | json }},
     {% if seo_media -%}
       "image": [
@@ -635,7 +629,7 @@
     {%- endif %}
     "brand": {
     "@type": "Brand",
-                        "name": {{ product.vendor | json }}
+                                "name": {{ product.vendor | json }}
     },
     "offers": [
     {%- for variant in product.variants -%}
