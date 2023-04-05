@@ -1,7 +1,7 @@
 .custom-gallery-wrapper {
   display: flex;
   flex-direction: column;
-  height: 70vh;
+  height: 430px;
   width: 100vw;
 }
 
@@ -9,12 +9,60 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 100% 0%;
+}
+
+/* Image-container design */
+.custom-image-container {
+  height: 80%;
+  width: 100%;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Thumnail container */
+.thumbnail-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.thumbnail-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* component-grid */
+.custom-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  padding: 0;
+  list-style: none;
+  column-gap: var(--grid-mobile-horizontal-spacing);
+  row-gap: var(--grid-mobile-vertical-spacing);
 }
 
 @media screen and (min-width: 450px) {
   .custom-gallery-wrapper {
     height: 700px;
     width: auto;
+  }
+  .thumbnail-wrapper {
+    height: fit-content;
+  }
+  .custom-image-container {
+    height: fit-content;
+  }
+  .custom-grid {
+    flex-wrap: nowrap;
   }
 }
 
@@ -30,32 +78,6 @@ button {
 .slide {
   width: 100%;
   height: 100%;
-}
-
-/* Image-container design */
-.image-container {
-  height: 60%;
-  width: 100%;
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-/* Thumnail container */
-.thumbnail-wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-}
-
-.thumbnail-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
 }
 
 .custom-thumbnail {
@@ -139,4 +161,8 @@ button {
 .fa:hover {
   transition: 1s;
   color: white;
+}
+
+.fancybox__container {
+  background-color: black;
 }

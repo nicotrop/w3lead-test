@@ -2,7 +2,7 @@
 
 <div class="custom-gallery-wrapper">
   <!-- Image container of the image slider -->
-  <div class="image-container">
+  <div class="custom-image-container">
     {% for image in product.images %}
       <div class="slide">
         <a href={{ image | img_url: '500x' }} data-fancybox="gallery-a">
