@@ -9,27 +9,32 @@
     <span
       style="font-weight:400; font-size: 12px">{{ section.settings.subheading }}</span>
 
-    <form form id="form" action="/" class="custom-email-form">
+    {%- assign newsletter_id = 'newsletter-' | append: section.id -%}
+    {%- form 'customer', id: newsletter_id, class: 'custom-email-form' -%}
         <div class="input-control">
-            <label
-            for="custom-email-input"
-            aria-hidden="Email input"
-            hidden>
-            </label>
-            <input
-            name="contact[tags]"
-            type="text"
-            id="email"
-            placeholder="{{ section.settings.placehoder_text }}" 
-            />
-            <div class="error">
+            <div class="custom-form-main">
+                <label
+                for="custom-email-input"
+                aria-hidden="Email input"
+                hidden>
+                </label>
+                <input
+                name="contact[tags]"
+                type="text"
+                id="email"
+                placeholder="{{ section.settings.placehoder_text }}" 
+                />
+                <button type="submit" class="custom-submit-btn">
+                    {% render 'custom-icon-arrow-right' %}
+                </button>
             </div>
+            {% if form.errors %}
+                <span class="error">
+                    {{ form.errors | default_errors  }}
+                </span>
+            {% endif %}
         </div>
-        <button type="submit" class="custom-submit-btn">
-            {% render 'custom-icon-arrow-right' %}
-        </button>
-    </form>
-
+    {% endform %}
 </section>
 
 {% schema %}

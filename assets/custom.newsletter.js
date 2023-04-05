@@ -7,16 +7,20 @@ form.addEventListener("submit", (e) => {
 });
 
 const setError = (element, message) => {
-  const inputControl = element.parentElement;
+  const inputControl = element.parentElement.parentElement;
+  console.log("inputControl", inputControl);
+
   const errorDisplay = inputControl.querySelector(".error");
 
   errorDisplay.innerText = message;
-  inputControl.classList.add("error");
-  inputControl.classList.remove("success");
+  element.parentElement.classList.add("error");
+  element.parentElement.classList.remove("success");
 };
 
 const setSuccess = (element) => {
   const inputControl = element.parentElement;
+  console.log("inputControl", inputControl);
+
   const errorDisplay = inputControl.querySelector(".error");
 
   errorDisplay.innerText = "";

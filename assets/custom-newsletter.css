@@ -1,4 +1,4 @@
-.custom-email-form {
+.custom-form-main {
   border-radius: 45px;
   padding: 10px 20px;
   height: 52px;
@@ -44,15 +44,19 @@
   flex-direction: column;
 }
 
-.input-control.success input {
+.custom-form-main.success input {
   border-color: none;
 }
 
-.input-control.error input {
+.custom-form-main.error input {
   border-color: #ff3860;
 }
 
 .input-control .error {
   color: #ff3860;
-  margin-top: 5px;
+  font-size: 12px;
+}
+
+.error ul li {
+  list-style: none;
 }
