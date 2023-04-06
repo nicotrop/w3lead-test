@@ -14,6 +14,7 @@
     {% endfor %}
   </div>
 
+  {% if product.image > 1 %}   
   <div class="thumbnail-wrapper">
     <div class="thumbnail-container">
       {% for image in product.images %}
@@ -34,4 +35,5 @@
       {% render 'icon-custom-chevron-right' %}
     </a>
   </div>
+  {% endif %}
 </div>

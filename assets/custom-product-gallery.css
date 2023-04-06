@@ -52,7 +52,8 @@
 
 @media screen and (min-width: 450px) {
   .custom-gallery-wrapper {
-    height: 700px;
+    height: fit-content;
+    /* height: 700px; */
     width: 55%;
   }
   .thumbnail-wrapper {
@@ -94,6 +95,12 @@ button {
 .active,
 .custom-thumbnail:hover {
   opacity: 1;
+}
+
+@media screen and (min-width: 1020px) {
+  .custom-gallery-wrapper {
+    height: 700px;
+  }
 }
 
 @media screen and (min-width: 990px) {

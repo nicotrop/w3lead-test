@@ -1,0 +1,111 @@
+<span class="at_option1">Hello</span>
+<span class="at_option2"></span>
+
+{%- liquid
+  assign var_data = product.variants | json
+  assign variants_available_arr = product.variants | map: 'available'
+  assign variants_option1_arr = product.variants | map: 'option1'
+  assign variants_option2_arr = product.variants | map: 'option2'
+  assign variants_option3_arr = product.variants | map: 'option3'
+  assign product_form_id = 'product-form-' | append: section.id
+  assign variant_colors = product.variants.metafields | map: 'custom.product_color'
+  
+  -%}
+
+{% capture color_list %}
+  {% for variant in product.variants %}
+    {{ variant.metafields.custom.product_color }}
+  {% endfor %}
+{% endcapture %}
+
+{% assign color_list = color_list | split: ' ' | uniq | join: ' ' %}
+{% assign color_arr = color_list | split: ' ' %}
+
+
+  {% form 'product', product %}
+  {% unless product.has_only_default_variant %}
+    <div id="custom-find-variants" data-variants="{{var_data}}">
+      {% for option in product.options_with_values %}
+        <div
+          id="custom-find-options"
+          index="{{ forloop.index }}"
+          aria-hidden="true">
+          <h4 for="{{option.name | downcase | escape }}">{{ option.name | upcase }}</h4>
+          {% for value in option.values %}
+
+            {%- liquid
+            assign option_disabled = true
+            assign current_color = color_arr[forloop.index0]
+
+            for option1_name in variants_option1_arr
+              case option.position
+                when 1
+                  if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                    assign option_disabled = false
+                  endif
+                when 2
+                  if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                    assign option_disabled = false
+                  endif
+                when 3
+                  if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                    assign option_disabled = false
+                  endif
+              endcase
+            endfor
+          -%}
+            <input
+              value="{{ value | escape }}"
+              type="radio"
+              name="input-{{option.name | downcase | escape}}"
+              id="{{option.name | downcase }}-{{ value | downcase |escape}}"
+              {% if option.selected_value == value %}checked{% endif %}
+              {% if option.disabled %}
+              class="disabled"
+              {% endif %} />
+            <label for="{{option.name | downcase }}-{{ value | downcase |escape}}" aria-hidden="true">{{ value }}</label>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endunless %}
+  <!-- form content -->
+  <input type="submit" value="Add to cart">
+{% endform %}
+
+<script>
+
+  let option1 = null;
+  let option2 = null;
+  let id = "";
+  let price = "";
+
+  const variants = JSON.parse(document.querySelector(".custom-find-variants").getAttribute("data-variants"));
+
+  const findVariant = (option1, option2) => {
+    const variant = variants.find((variant) => {
+      return variant.option1 === option1 && variant.option2 === option2;
+    });
+    console.log(variant);
+    return {id: variant.id, price: variant.price, compareAtPrice: variant.compare_at_price};
+  };
+
+  let inputVal;
+
+  const tailleInputs = document.querySelectorAll('input[name="input-taille"]');
+
+  tailleInputs.forEach('click', () => {
+    inputVal = this.value;
+    console.log(inputVal);
+  });
+}
+);});// option1Sel.on('change', function() {// option1 = $(this).val();// $('.at_taille').text(`${option1}`);// const currentVariant = findVariant(option1, option2, option3);// if (currentVariant.id !== id ) {// id = currentVariant.id;// price = currentVariant.price;// $('.at_id').text(`${id}`);// $('.at_price').text(`${price}`);// }// });option2Sel.on("change", function() {
+option2 = $(this).val();
+$(".at_option2").text(`${option2}`);
+if (currentVariant.id !== id) {
+  id = currentVariant.id;
+  price = currentVariant.price;
+  $(".at_option2").text(`${id}`);
+  $(".at_price").text(`${price}`);
+}});});
+</script>
