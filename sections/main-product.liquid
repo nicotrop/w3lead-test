@@ -1,7 +1,8 @@
 <section
   id="MainProduct-{{ section.id }}"
   class="page-width section-{{ section.id }}-padding"
-  data-section="{{ section.id }}">
+  data-section="{{ section.id }}"
+  style="position: relative;">
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -516,6 +517,7 @@
       </product-info>
     </div>
   </div>
+  {% render 'custom-back-to-top-btn' %}
 </section>
 
 {% schema %}

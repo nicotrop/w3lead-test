@@ -2,18 +2,23 @@
 
 {% style %}
   .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}
+    px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}
+    px;
   }
-  
+
   @media screen and (min-width: 750px) {
     .footer {
-      margin-top: {{ section.settings.margin_top }}px;
+      margin-top: {{ section.settings.margin_top }}
+      px;
     }
 
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top }}
+      px;
+      padding-bottom: {{ section.settings.padding_bottom }}
+      px;
     }
   }
 {% endstyle %}
@@ -29,132 +34,127 @@
   <div class="custom-footer-container">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
-          {%- when 'image' -%}
-            <div class="custom-footer-logo-container">
-              <div style="max-width: min(100%, {{ block.settings.image_width }}px);">
-                <img
-                srcset= "{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
-                src="{{ block.settings.image | img_url:  width: block.settings.image_width }}"
-                alt="{{ block.settings.image.alt | escape }}"
-                loading="lazy"
-                width="{{ block.settings.image_width }}"
-                >
-              </div>
-              {% if has_social_icons == true %}
-                {% render 'custom-social-icons' %}
-              {% endif %}
-            </div>
-          {%- when 'link_list' -%}
-            {%- if block.settings.menu != blank -%}
-            <div class="custom-footer-link-container">
-              {%- for link in block.settings.menu.links -%}
-                <ul class="list-unstyled">
-                  <li class="custom-footer-link-header">
-                    <a href="{{ link.url }}">
-                      {{ link.title }}
-                    </a>
-                  </li>
-                  {% if link.links != blank %}
-                    <ul class="list-unstyled">
-                      {%- for child_link in link.links -%}
-                        <li class="custom-footer-links">
-                          <a href="{{ child_link.url }}">
-                            {{ child_link.title }}
-                          </a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  {% endif %}
-                </ul>
-              {%- endfor -%}
-            </div>
-            {%- endif -%}
+        {%- when 'image' -%}
+        <div class="custom-footer-logo-container">
+          <div style="max-width: min(100%, {{ block.settings.image_width }}px);">
+            <img
+              srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
+              src="{{ block.settings.image | img_url:  width: block.settings.image_width }}"
+              alt="{{ block.settings.image.alt | escape }}"
+              loading="lazy"
+              width="{{ block.settings.image_width }}">
+          </div>
+          {% if has_social_icons == true %}
+            {% render 'custom-social-icons' %}
+          {% endif %}
+        </div>
+        {%- when 'link_list' -%}
+        {%- if block.settings.menu != blank -%}
+          <div class="custom-footer-link-container">
+            {%- for link in block.settings.menu.links -%}
+              <ul class="list-unstyled">
+                <li class="custom-footer-link-header">
+                  <a href="{{ link.url }}">
+                    {{ link.title }}
+                  </a>
+                </li>
+                {% if link.links != blank %}
+                  <ul class="list-unstyled">
+                    {%- for child_link in link.links -%}
+                      <li class="custom-footer-links">
+                        <a href="{{ child_link.url }}">
+                          {{ child_link.title }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {% endif %}
+              </ul>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       {%- endcase -%}
     {%- endfor -%}
   </div>
   <div class="custom-bottom-footer-wrapper">
     {% comment %} <div class="custom-bottom-footer-container"> {% endcomment %}
-      {%- if section.settings.bottom_menu != blank -%}
-        <div class="custom-bottom-footer-link-container">
-          {%- for link in section.settings.bottom_menu.links -%}
-            <ul class="list-unstyled">
-              <li class="custom-footer-links">
-                <a href="{{ link.url }}">
-                  {{ link.title }}
-                </a>
-              </li>
-            </ul>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-        <span class="custom-bottom-signature">
-          {{ section.settings.signature_text }}
-        </span>
-    {% comment %} </div> {% endcomment %}
+    {%- if section.settings.bottom_menu != blank -%}
+      <div class="custom-bottom-footer-link-container">
+        {%- for link in section.settings.bottom_menu.links -%}
+          <ul class="list-unstyled">
+            <li class="custom-footer-links">
+              <a href="{{ link.url }}">
+                {{ link.title }}
+              </a>
+            </li>
+          </ul>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    <span class="custom-bottom-signature">
+      {{ section.settings.signature_text }}
+    </span>
   </div>
 </footer>
 
 
 {% schema %}
-{
-  "name": "Footer",
-  "class": "footer",
-  "blocks": [
-    {
-      "type": "link_list",
-      "name": "t:sections.footer.blocks.link_list.name",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "default": "Quick links",
-          "label": "t:sections.footer.blocks.link_list.settings.heading.label"
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "default": "footer",
-          "label": "t:sections.footer.blocks.link_list.settings.menu.label",
-          "info": "t:sections.footer.blocks.link_list.settings.menu.info"
-        }
-      ]
-    },
-    {
-      "type": "image",
-      "name": "Image",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "range",
-          "id": "image_width",
-          "min": 100,
-          "max": 200,
-          "step": 5,
-          "unit": "px",
-          "label": "Image width",
-          "default": 145
-        }
-      ]
-    }
-  ],
-  "settings": [
-    {
-      "type": "link_list",
-      "label": "Footer Pied de page",
-      "id": "bottom_menu",
-      "default": "footer"
-    }, {
-      "type": "text",
-      "label": "Signature text",
-      "id": "signature_text",
-      "default": "Made by W3lead For Testing Purpose"
-    }
-  ]
-}
+  {
+    "name": "Footer",
+    "class": "footer",
+    "blocks": [
+      {
+        "type": "link_list",
+        "name": "t:sections.footer.blocks.link_list.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "default": "Quick links",
+            "label": "t:sections.footer.blocks.link_list.settings.heading.label"
+          }, {
+            "type": "link_list",
+            "id": "menu",
+            "default": "footer",
+            "label": "t:sections.footer.blocks.link_list.settings.menu.label",
+            "info": "t:sections.footer.blocks.link_list.settings.menu.info"
+          }
+        ]
+      }, {
+        "type": "image",
+        "name": "Image",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }, {
+            "type": "range",
+            "id": "image_width",
+            "min": 100,
+            "max": 200,
+            "step": 5,
+            "unit": "px",
+            "label": "Image width",
+            "default": 145
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "link_list",
+        "label": "Footer Pied de page",
+        "id": "bottom_menu",
+        "default": "footer"
+      }, {
+        "type": "text",
+        "label": "Signature text",
+        "id": "signature_text",
+        "default": "Made by W3lead For Testing Purpose"
+      }
+    ]
+  }
 {% endschema %}

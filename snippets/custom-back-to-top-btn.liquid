@@ -1,0 +1,35 @@
+{% style %}
+  .back-to-top {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    height: 50px;
+    width: 50px;
+    background-color: #EEEEEE;
+    color: black;
+    border-radius: 50%;
+    z-index: 100;
+  }
+{% endstyle %}
+
+<button id="toTop" class="back-to-top">
+  {% render 'icon-custom-chevron-up' %}
+</button>
+
+<script>
+  $(document).ready(function() {
+    $(window).scroll(function() {
+      if ($(this).scrollTop() > 100) {
+        $('#toTop').fadeIn();
+      } else {
+        $('#toTop').fadeOut();
+      }
+    });
+    $('#toTop').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 800);
+      return false;
+    });
+  });
+</script>
