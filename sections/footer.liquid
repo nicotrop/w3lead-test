@@ -77,7 +77,6 @@
     {%- endfor -%}
   </div>
   <div class="custom-bottom-footer-wrapper">
-    {% comment %} <div class="custom-bottom-footer-container"> {% endcomment %}
     {%- if section.settings.bottom_menu != blank -%}
       <div class="custom-bottom-footer-link-container">
         {%- for link in section.settings.bottom_menu.links -%}
@@ -153,7 +152,7 @@
         "type": "text",
         "label": "Signature text",
         "id": "signature_text",
-        "default": "Made by W3lead For Testing Purpose"
+        "default": "Made by W3lead For Testing Purposes"
       }
     ]
   }
