@@ -106,6 +106,7 @@ button {
     justify-items: start;
     gap: 2rem;
     height: 700px;
+    overflow: hidden;
   }
 
   .thumbnail-wrapper {

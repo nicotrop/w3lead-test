@@ -106,7 +106,18 @@
         "heading": "Newsletter",
         "subheading": "Subscribe to our newsletter and get 10% off your first purchase"
       }
+    },
+    "custom-breadcrumbs": {
+      "type": "custom-breadcrumbs",
+      "settings": {
+        "separator": " / "
+      }
     }
   },
-  "order": ["main", "related-products", "custom-newsletter"]
+  "order": [
+    "main",
+    "related-products",
+    "custom-newsletter",
+    "custom-breadcrumbs"
+  ]
 }

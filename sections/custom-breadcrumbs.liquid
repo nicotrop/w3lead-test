@@ -1,0 +1,72 @@
+<section class="page-width" style="padding: 2rem 15px;">
+  {% style %}
+    .breadcrumb-wrapper {
+      display: inline-flex;
+      width: 100%;
+      justify-content: center;
+    }
+    .breadcrumb-container {
+      list-style: none;
+      display: flex;
+      gap: 5px;
+    }
+    .breadcrumb-container li a {
+      color: black;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 400;
+    }
+    .breadcrumb li a:hover {
+      text-decoration: underline;
+    }
+  {% endstyle %}
+  <div class="breadcrumb-wrapper">
+    <ol class="breadcrumb-container">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      {{ section.settings.separator }}
+      {% for collection in product.collections %}
+        {% if collection.title != 'All Products' %}
+          <li>
+            <a href="{{ collection.url }}">{{ collection.title }}</a>
+          </li>
+          {{ section.settings.separator }}
+        {% endif %}
+      {% endfor %}
+      <li>
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Breadcrumb",
+    "tag": "section",
+    "class": "breadcrumb",
+    "settings": [
+      {
+        "type": "text",
+        "id": "separator",
+        "label": "Separator",
+        "default": " / "
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product Page Breadcrumb",
+        "category": "Breadcrumb",
+        "settings": {
+          "separator": " / "
+        }
+
+      }
+    ],
+    "enabled_on": {
+      "templates": ["product"],
+      "groups": ["footer"]
+    }
+  }
+{% endschema %}
