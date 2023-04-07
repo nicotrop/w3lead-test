@@ -32,28 +32,6 @@ h1,
   color: black;
 }
 
-.product-form__input input[type="radio"] + label,
-.custom-size-input {
-  width: 32px;
-  height: 32px;
-  border-solid: 1px solid #000;
-  border-radius: 50%;
-  display: inline-flex;
-  text-align: center;
-}
-
-.product-form__input input[type="radio"]:checked + label,
-.custom-color-input {
-  width: 32px;
-  height: 32px;
-  padding: 1px;
-  border-solid: 1px solid #000;
-  background-color: black;
-  border-radius: 50%;
-  display: inline-flex;
-  text-align: center;
-}
-
 .custom-accordion {
   margin-top: 2.5rem;
   margin-bottom: 0;

@@ -6,9 +6,9 @@
   - block: {Object} block object.
   Usage:
   {% render 'product-variant-options',
-    product: product,
-    option: option,
-    block: block
+  product: product,
+  option: option,
+  block: block
   %}
 {% endcomment %}
 {%- liquid
@@ -42,6 +42,11 @@
     endfor
   -%}
 
+  {{ variants_option1_arr[forloop.index0] | json }}
+  {{ variants_option2_arr[forloop.index0] | json }}
+  {{ variants_option3_arr[forloop.index0] | json }}
+  {{ variants_available_arr[forloop.index0] | json }}
+
   {%- if block.settings.picker_type == 'button' -%}
     <input
       type="radio"
@@ -50,12 +55,11 @@
       value="{{ value | escape }}"
       form="{{ product_form_id }}"
       {% if option.selected_value == value %}
-        checked
+      checked
       {% endif %}
       {% if option_disabled %}
-        class="disabled"
-      {% endif %}
-    >
+      class="disabled"
+      {% endif %}>
     <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
       {{ value -}}
       <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
@@ -64,9 +68,8 @@
     <option
       value="{{ value | escape }}"
       {% if option.selected_value == value %}
-        selected="selected"
-      {% endif %}
-    >
+      selected="selected"
+      {% endif %}>
       {% if option_disabled -%}
         {{- 'products.product.value_unavailable' | t: option_value: value -}}
       {%- else -%}
