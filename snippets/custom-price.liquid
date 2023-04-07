@@ -1,0 +1,96 @@
+{% style %}
+  .price-wrapper {
+    margin-top: 14px;
+  }
+  .custom-price-big-price {
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+  }
+  .custom-compare-price {
+  text-decoration: line-through;
+  color: #999999;
+ }
+ .custom-comparator {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    height: fit-content;
+ } 
+ .custom-discount-badge {
+    width: 44px;
+    text-align: center;
+    padding: 5px 8px;
+    line-height: 12px; 
+    font-size: 10px; 
+    font-weight: 800; 
+    color: white; 
+    background-color: black; 
+    border-radius: 15px;
+ }
+
+{% endstyle %}
+
+{%- liquid
+
+    comment 
+        Declarer le variant et ses propriétes à l'initialisation 
+    endcomment
+
+    assign curr_var = product.selected_or_first_available_variant
+    assign compare_at_price = curr_var.compare_at_price | money_with_currency
+    assign price = curr_var.price | default: 20
+    assign available = curr_var.available | default: false
+    
+    comment 
+        Prix sans virgule si le prix est rond avec money_without_trailing_zeros
+        Cependant, ne fonctionne pas avec le formatage de devise actuel
+    endcomment
+
+    assign money_price = price | money_with_currency
+
+    comment 
+        Définir si le produit est en solde ou non. Si oui calculer le pourcentage de réduction
+    endcomment
+
+    if curr_var.compare_at_price > curr_var.price 
+        assign on_sale = true
+        assign percent_off = curr_var.compare_at_price | minus: curr_var.price | times: 100.0 | divided_by: curr_var.compare_at_price | round: 0 | append: '%'
+    endif 
+-%}
+
+
+<div class="price-wrapper">
+    {% unless on_sale %}
+    <!-- Si produit n'est pas en soldes  --> 
+        <div class="custom-price-big-price">
+            <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
+            <!-- Prix  -->
+            <span>
+                {{ money_price }}
+            </span>
+        </div>
+        {% else %}
+        <!-- Si produit est en soldes  -->
+        <div class="custom-comparator custom-price-big-price">
+            <!-- Prix  -->
+            <span>
+                {{ money_price }}
+            </span>
+            <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
+
+            <!-- Prix barré  -->
+            <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
+            <span class="custom-compare-price">
+                {{ compare_at_price }}
+            </span>
+
+            <!-- Discount badge en pourcentage  -->
+            <span class="custom-discount-badge">
+            {{ percent_off }}
+            </span>
+
+        </div> 
+    {% endunless %}
+</div>

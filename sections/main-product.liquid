@@ -1,20 +1,14 @@
+<!-- Import des fichiers CSS et reutilisation de class du Themes -->
 <section
   id="MainProduct-{{ section.id }}"
   class="page-width section-{{ section.id }}-padding"
   data-section="{{ section.id }}"
   style="position: relative;">
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
-  {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'component-rte.css' | asset_url | stylesheet_tag }}
-  {{ 'component-slider.css' | asset_url | stylesheet_tag }}
-  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
-  {{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
-  {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
   {{ 'custom-product-gallery.css' | asset_url | stylesheet_tag }}
   {{ 'custom-product-info.css' | asset_url | stylesheet_tag }}
   {{ 'custom-accordion.css' | asset_url | stylesheet_tag }}
-
 
   {%- style -%}
     .section-{{ section.id }}-padding {
@@ -32,8 +26,18 @@
         px;
       }
     }
+
+    .custom-subtitle {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 15px;
+      text-transform: uppercase;
+      margin: 14px 0 0 0;
+      padding: 0;
+    }
   {%- endstyle -%}
 
+  <!-- Import des fichiers JS -->
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'custom-product-gallery.js' | asset_url }}" defer="defer"></script>
@@ -43,48 +47,53 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
 
 
-  {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
-
-  {% render 'custom-product-form' %}
-
   <div class="product product--large custom-grid">
+    <!-- Snippet pour la gallerie photo -->
     {% render 'custom-product-gallery' %}
+    <!-- Reste du code pour les informations concernant le produit -->
     <div class="custom-product-wrapper custom-grid-item">
+
+      <!-- Reutilisation du webcomponents avec custom class pour l'effet sticky -->
       <product-info
         id="ProductInfo-{{ section.id }}"
         data-section="{{ section.id }}"
         data-url="{{ product.url }}"
-        class="product__info-container custom-section-sticky">
+        class="custom-section-sticky">
+        <!-- Form ID de cette section -->
         {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
         {%- for block in section.blocks -%}
           {%- case block.type -%}
-            {%- when 'text' -%}
-            <p class="product__text{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} custom-subtitle{% endif %}" {{ block.shopify_attributes }}>
-              {{- block.settings.text -}}
+
+            <!-- Customization du block type pour le subtitle  -->
+            {%- when 'subtitle' -%}
+            <p class="custom-subtitle">
+              {{- product.title | split: '-' | first -}}
             </p>
+
+            <!-- Customization du block type pour le titre avec le coeur  -->
             {%- when 'title' -%}
             <div class="custom-title-container">
               <h1 class="custom-title">{{ product.title | split: '-' | last }}</h1>
               {% render 'icon-custom-heart' %}
             </div>
+
+            <!-- Snipper pour montrer le prix  -->
             {%- when 'price' -%}
             <div
-              class="no-js-hidden"
               id="price-{{ section.id }}"
-              role="status"
-              {{ block.shopify_attributes }}>
-              {%- render 'price'
-                , product: product,
-                use_variant: true,
-                show_badges: true,
-                price_class: 'price--large' -%}
+              >
+              {%- render 'custom-price', product: product,
+                -%}
             </div>
-            {% comment %} Custom block {% endcomment %}
+
+            <!-- Section pour l'onglet depliant -->
             {%- when 'collapsible_tab' -%}
-            <div>
               <div class="coll-box">
                 <div class="coll-box-header">
+                  <!-- Si l'utilisateur selectionne de montrer la description sur cet onglet?
+                   description en titre et description en texte  -->
+                  <!-- Sinon, on affiche le contenu de son input en titre et en texte  -->
                   {% if block.settings.product_description == true %}
                     <h3>Description</h3>
                   {% else %}
@@ -100,15 +109,14 @@
                   {% endif %}
                 </div>
               </div>
+
+              <!-- Je n'ai pas modifié le quantity_selector par manque de temps et d'experience -->
               {%- when 'quantity_selector' -%}
                 <div
                 id="Quantity-Form-{{ section.id }}"
                 class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
                 {{ block.shopify_attributes }}>
-                {% comment %} TODO: enable theme-check once `item_count_for_variant` is accepted as valid filter {% endcomment %}
-                {% # theme-check-disable %}
                 {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
-                {% # theme-check-enable %}
                 <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
                   {{ 'products.product.quantity.label' | t }}
                   <span class="quantity__rules-cart no-js-hidden{% if cart_qty == 0 %} hidden{% endif %}">
@@ -192,8 +200,11 @@
                 {%- endif -%}
               </div>
             </div>
+
+
             {%- when 'variant_picker' -%}
             {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+
             {%- when 'buy_buttons' -%}
             {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
             {% if block.settings.pickup_in_store %}
@@ -202,6 +213,7 @@
                 <span>Réserver en boutique</span>
               </button>
             {% endif %}
+            
           {% endcase %}
         {%- endfor -%}
       </product-info>
@@ -217,33 +229,8 @@
     "class": "section",
     "blocks": [
       {
-        "type": "text",
-        "name": "t:sections.main-product.blocks.text.name",
-        "settings": [
-          {
-            "type": "text",
-            "id": "text",
-            "default": "Text block",
-            "label": "t:sections.main-product.blocks.text.settings.text.label"
-          }, {
-            "type": "select",
-            "id": "text_style",
-            "options": [
-              {
-                "value": "body",
-                "label": "t:sections.main-product.blocks.text.settings.text_style.options__1.label"
-              }, {
-                "value": "subtitle",
-                "label": "t:sections.main-product.blocks.text.settings.text_style.options__2.label"
-              }, {
-                "value": "uppercase",
-                "label": "t:sections.main-product.blocks.text.settings.text_style.options__3.label"
-              }
-            ],
-            "default": "body",
-            "label": "t:sections.main-product.blocks.text.settings.text_style.label"
-          }
-        ]
+        "type": "subtitle",
+        "name": "Sous-titre"
       },
       {
         "type": "title",
