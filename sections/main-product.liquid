@@ -6,7 +6,6 @@
   style="position: relative;">
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'custom-product-gallery.css' | asset_url | stylesheet_tag }}
   {{ 'custom-product-info.css' | asset_url | stylesheet_tag }}
   {{ 'custom-accordion.css' | asset_url | stylesheet_tag }}
 
@@ -41,7 +40,6 @@
   <!-- Import des fichiers JS -->
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'custom-product-gallery.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'custom-accordion.js' | asset_url }}" defer="defer"></script>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
@@ -206,24 +204,28 @@
             {%- when 'variant_picker' -%}
             <!-- Seulement si le produit contient des options -->
             {%- unless product.has_only_default_variant -%}
-            <!-- Appelle du snippet customisé** en y passant l'objet produit et l'id du formulaire -->
+            <!-- Snippet du variant picker + liens vers guides des tailles en y passant l'objet produit et l'id du formulaire -->
             {% render 'custom-product-variant-picker', product: product, product_form_id: product_form_id %}
            {%- endunless -%}
 
+            <!-- Section pour le bouton d'ajout au panier et de reservation en boutique -->
             {%- when 'buy_buttons' -%}
-            {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
-            {% if block.settings.pickup_in_store %}
-              <button class="pickup-btn">
-                {% render 'icon-custom-store' %}
-                <span>Réserver en boutique</span>
-              </button>
-            {% endif %}
-            
+            <div style="margin: 32px 0;">
+              {%- render 'custom-buy-buttons', product: product, product_form_id: product_form_id, section_id: section.id -%}
+              <!-- Si la checkbox pickup_in_store est selectionnée montre le bouton réserver en boutique -->
+              {% if block.settings.pickup_in_store %}
+                <button class="pickup-btn">
+                  {% render 'icon-custom-store' %}
+                  <span>Réserver en boutique</span>
+                </button>
+              {% endif %}
+            </div>
           {% endcase %}
         {%- endfor -%}
       </product-info>
     </div>
   </div>
+  <!-- Bouton back to top fixed au bas droite de la page -->
   {% render 'custom-back-to-top-btn' %}
 </section>
 
@@ -278,18 +280,8 @@
         "type": "description",
         "name": "t:sections.main-product.blocks.description.name",
         "limit": 1
-      }, {
-        "type": "custom_liquid",
-        "name": "t:sections.main-product.blocks.custom_liquid.name",
-        "settings": [
-          {
-            "type": "liquid",
-            "id": "custom_liquid",
-            "label": "t:sections.main-product.blocks.custom_liquid.settings.custom_liquid.label",
-            "info": "t:sections.main-product.blocks.custom_liquid.settings.custom_liquid.info"
-          }
-        ]
-      }, {
+      },
+       {
         "type": "collapsible_tab",
         "name": "t:sections.main-product.blocks.collapsible_tab.name",
         "settings": [

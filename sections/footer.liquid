@@ -1,6 +1,8 @@
+<!-- Import du fichier CSS -->
 {{ 'custom-footer.css' | asset_url | stylesheet_tag }}
 
 {% style %}
+  /* Classes CSS du theme calculées en fonction des paramètres de la section */
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}
     px;
@@ -24,44 +26,55 @@
 {% endstyle %}
 
 {% liquid
+  comment 
+    Vérifie si la section contient des liens vers les réseaux sociaux 
+  endcomment
   assign has_social_icons = true
+
   if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
   assign has_social_icons = false
   endif
 %}
 
 <footer class="footer page-width section-{{ section.id }}-padding">
+  <!-- Affichage de la main section du footer -->
   <div class="custom-footer-container">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'image' -%}
         <div class="custom-footer-logo-container">
           <div style="max-width: min(100%, {{ block.settings.image_width }}px);">
+            <!-- Affichage de l'image avec une taille personalisée -->
             <img
-              srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
               src="{{ block.settings.image | img_url:  width: block.settings.image_width }}"
               alt="{{ block.settings.image.alt | escape }}"
               loading="lazy"
               width="{{ block.settings.image_width }}">
           </div>
+          <!-- Si le compte contient des liens vers les réseaux sociaux, on les affiche -->
           {% if has_social_icons == true %}
             {% render 'custom-social-icons' %}
           {% endif %}
         </div>
         {%- when 'link_list' -%}
-        {%- if block.settings.menu != blank -%}
+          {%- if block.settings.menu != blank -%}
           <div class="custom-footer-link-container">
+            <!-- Affichage du menu selectionné -->
             {%- for link in block.settings.menu.links -%}
               <ul class="list-unstyled">
                 <li class="custom-footer-link-header">
+                  <!-- Lien vers la page -->
                   <a href="{{ link.url }}">
                     {{ link.title }}
                   </a>
                 </li>
+                <!-- Si le lien contient des sous-liens, on les affiche -->
                 {% if link.links != blank %}
                   <ul class="list-unstyled">
+                    <!-- For loop pour parcourir tout les sous-liens -->
                     {%- for child_link in link.links -%}
                       <li class="custom-footer-links">
+                        <!-- Lien vers la page -->
                         <a href="{{ child_link.url }}">
                           {{ child_link.title }}
                         </a>
@@ -76,12 +89,15 @@
       {%- endcase -%}
     {%- endfor -%}
   </div>
+  <!-- Affichage du bottom_menu -->
   <div class="custom-bottom-footer-wrapper">
     {%- if section.settings.bottom_menu != blank -%}
       <div class="custom-bottom-footer-link-container">
+        <!-- For loop pour parcourir tout les liens du bottom menu -->
         {%- for link in section.settings.bottom_menu.links -%}
           <ul class="list-unstyled">
             <li class="custom-footer-links">
+              <!-- Lien vers la page -->
               <a href="{{ link.url }}">
                 {{ link.title }}
               </a>
@@ -90,11 +106,13 @@
         {%- endfor -%}
       </div>
     {%- endif -%}
+    <!-- Affichage du texte de signature customisable -->
     <span class="custom-bottom-signature">
       {{ section.settings.signature_text }}
     </span>
   </div>
 </footer>
+
 
 
 {% schema %}

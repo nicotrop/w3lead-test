@@ -1,3 +1,4 @@
+<!-- Définition du style du bouton 'back to top' -->
 {% style %}
   .back-to-top {
     position: fixed;
@@ -10,11 +11,13 @@
     border-radius: 50%;
     z-index: 100;
   }
+  /* Style pour le hover */
   .back-to-top:hover {
     transition: all 0.3s ease-in-out;
     scale: 1.1;
     cursor: pointer;
   }
+  /* Style pour le focus */
   .back-to-top:focus {
     opacity: 0.8;
     transition: all 0.3s ease-in-out;
@@ -23,12 +26,16 @@
   }
 {% endstyle %}
 
+<!-- Bouton 'back to top' -->
 <button id="toTop" class="back-to-top">
+  <!-- Snippet du ficher SVG de l'icone -->
   {% render 'icon-custom-chevron-up' %}
 </button>
 
 <script>
+  // Initialisation de jQuery quand la page est chargée
   $(document).ready(function() {
+    // Fonction pour afficher/cacher le bouton 'back to top' en fonction de la position du scroll > 100 pixels
     $(window).scroll(function() {
       if ($(this).scrollTop() > 100) {
         $('#toTop').fadeIn();
@@ -36,6 +43,7 @@
         $('#toTop').fadeOut();
       }
     });
+    // Fonction pour animer le scroll vers le haut de la page lors du clic sur le bouton 'back to top' - duration 800ms
     $('#toTop').click(function() {
       $('html, body').animate({
         scrollTop: 0

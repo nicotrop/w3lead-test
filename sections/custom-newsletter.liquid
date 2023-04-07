@@ -1,30 +1,44 @@
-<section class="page-width section-{{ section.id }}-padding" style="padding: 4rem 15px;">
+<!-- Section en reutilisant les classes de margin par  defaut -->
+<section class="page-width section-{{ section.id }}-padding">
+  <!-- Import du fichier CSS correspondant -->
   {{ 'custom-newsletter.css' | asset_url | stylesheet_tag }}
 
+  <!-- Import du fichier JS correspondant -->
   <script src="{{ 'custom-newsletter.js' | asset_url }}" defer="defer"></script>
 
   <div class="custom-newsletter-wrapper">
-    <h2
-      class="custom-newsletter-header">{{ section.settings.heading }}</h2>
+    <!-- Titre de la section personnalisable -->
+    <h2 class="custom-newsletter-header">{{ section.settings.heading }}</h2>
+    <!-- Sous-titre de la section personnalisable -->
     <span class="custom-newsletter-subheader">{{ section.settings.subheading }}</span>
 
+    <!-- Déclarer une variable avec l'id de la section pour le formulaire customer -->
     {%- assign newsletter_id = 'newsletter-' | append: section.id -%}
+
+    <!-- Formulaire customer -->
     {%- form 'customer', id: newsletter_id, class: 'custom-email-form' -%}
       <div class="input-control">
         <div class="custom-form-main">
           <label
-            for="custom-email-input"
+            for="customerEmail"
             aria-hidden="Email input"
-            hidden></label>
+            hidden>
+          </label>
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <!-- Champ pour entrer l'adresse e-mail, avec un placeholder text personnalisable -->
           <input
-            name="contact[tags]"
-            type="text"
-            id="email"
-            placeholder="{{ section.settings.placehoder_text }}" />
+            name="contact[email]"
+            type="email"
+            id="customerEmail"
+            required
+            placeholder="{{ section.settings.placehoder_text }}" 
+            />
+            <!-- Bouton de soumission pour le formulaire -->
           <button type="submit" class="custom-submit-btn">
             {% render 'custom-icon-arrow-right' %}
           </button>
         </div>
+        <!-- Vérifier s'il y a des erreurs de formulaire -->
         {% if form.errors %}
           <span class="error">
             {{ form.errors | default_errors }}

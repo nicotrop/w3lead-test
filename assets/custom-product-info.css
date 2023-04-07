@@ -83,6 +83,7 @@ h1,
   display: flex;
   gap: 1rem;
   width: 100%;
+  max-width: 44rem;
   justify-content: center;
   align-items: center;
   border-radius: 45px;

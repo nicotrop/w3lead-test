@@ -1,9 +1,11 @@
-<section class="page-width" style="padding: 2rem 15px;">
+<!-- Section breadcrumbs pour la page de produit -->
+<section class="page-width">
   {% style %}
     .breadcrumb-wrapper {
       display: flex;
       width: 100%;
       justify-content: center;
+      padding: 2rem 15px;
     }
     .breadcrumb-container {
       list-style: none;
@@ -23,24 +25,35 @@
   {% endstyle %}
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb-container">
+      <!-- Lien vers la page d'accueil -->
       <li>
         <a href="/">Home</a>
       </li>
+
+      <!-- Séparateur personnalisable -->
       {{ section.settings.separator }}
+
+      <!-- For loop pour afficher les collections associées au produit -->
       {% for collection in product.collections %}
+        <!-- Pour toutes collections autre que All Products -->
         {% if collection.title != 'All Products' %}
+        <!-- Lien vers la collection -->
           <li>
             <a href="{{ collection.url }}">{{ collection.title }}</a>
           </li>
+          <!-- Séparateur personnalisable -->
           {{ section.settings.separator }}
         {% endif %}
       {% endfor %}
+      <!-- Lien vers le produit -->
       <li>
         <a href="{{ product.url }}">{{ product.title }}</a>
       </li>
     </ol>
   </div>
 </section>
+
+<!-- Schéma pour les paramètres de la section -->
 
 {% schema %}
   {
@@ -66,8 +79,7 @@
       }
     ],
     "enabled_on": {
-      "templates": ["product"],
-      "groups": ["footer"]
+      "templates": ["product"]
     }
   }
 {% endschema %}

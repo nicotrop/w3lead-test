@@ -1,5 +1,9 @@
-<div class="custom-gallery-wrapper">
+{{ 'custom-product-gallery.css' | asset_url | stylesheet_tag }}
 
+<script src="{{ 'custom-product-gallery.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="custom-gallery-wrapper">
   <!-- Conteneur pour l'affichage de l'image principale -->
   <div class="custom-image-container">
     {% for image in product.images %}
