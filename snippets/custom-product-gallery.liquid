@@ -17,6 +17,13 @@
         </a>
       </div>
     {% endfor %}
+     <!-- Si il y a des tags -->
+    {% if product.tags %} 
+    <!-- Affichage du badge du premier tag -->
+    <span class="custom-product-tag">
+      {{ product.tags | first | remove: 'tag:' | upcase }}
+    </span>
+    {% endif %}
   </div>
 
   <!-- Affichage des vignettes d'images si +1 images -->
