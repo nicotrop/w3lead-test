@@ -53,7 +53,7 @@
     <!-- Reste du code pour les informations concernant le produit -->
     <div class="custom-product-wrapper custom-grid-item">
 
-      <!-- Reutilisation du webcomponents avec custom class pour l'effet sticky -->
+      <!-- Reutilisation du webcomponents avec l'utilisation d'une nouvelle classe pour l'effet sticky -->
       <product-info
         id="ProductInfo-{{ section.id }}"
         data-section="{{ section.id }}"
@@ -277,11 +277,7 @@
             "info": "Permet de proposer le retrait en magasin"
           }
         ]
-      }, {
-        "type": "description",
-        "name": "t:sections.main-product.blocks.description.name",
-        "limit": 1
-      },
+      }, 
        {
         "type": "collapsible_tab",
         "name": "t:sections.main-product.blocks.collapsible_tab.name",

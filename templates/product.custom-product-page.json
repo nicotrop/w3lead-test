@@ -10,7 +10,7 @@
         "subtitle": {
           "type": "text",
           "settings": {
-            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text": "<p>Hello</p>",
             "text_style": "subtitle"
           }
         },
