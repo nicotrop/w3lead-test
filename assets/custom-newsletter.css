@@ -77,10 +77,6 @@
   border-color: none;
 }
 
-.custom-form-main.error input {
-  border-color: #ff3860;
-}
-
 .input-control .error {
   color: #ff3860;
   font-size: 12px;

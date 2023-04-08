@@ -12,7 +12,7 @@
           <img
             class="custom-img"
             src={{ image | img_url: '500x' }}
-            alt={{ image.alt }}>
+            alt={{ image.alt | default: 'Image produit' }}>
         </a>
       </div>
     {% endfor %}
@@ -42,10 +42,10 @@
     </div>
 
     <!-- Boutons pour changer d'image -->
-    <a class="previous" onclick="moveSlides(-1)">
+    <a class="previous" onclick="moveSlides(-1)" aria-label="Précédent">
       {% render 'icon-custom-chevron-left' %}
     </a>
-    <a class="next" onclick="moveSlides(1)">
+    <a class="next" onclick="moveSlides(1)" aria-label="Suivant">
       {% render 'icon-custom-chevron-right' %}
     </a>
   </div>

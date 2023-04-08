@@ -3,10 +3,7 @@
   <!-- Import du fichier CSS correspondant -->
   {{ 'custom-newsletter.css' | asset_url | stylesheet_tag }}
 
-  <!-- Import du fichier JS correspondant -->
-  <script src="{{ 'custom-newsletter.js' | asset_url }}" defer="defer"></script>
-
-  <div class="custom-newsletter-wrapper">
+    <div class="custom-newsletter-wrapper">
     <!-- Titre de la section personnalisable -->
     <h2 class="custom-newsletter-header">{{ section.settings.heading }}</h2>
     <!-- Sous-titre de la section personnalisable -->
@@ -16,15 +13,18 @@
     {%- assign newsletter_id = 'newsletter-' | append: section.id -%}
 
     <!-- Formulaire customer -->
-    {%- form 'customer', id: newsletter_id, class: 'custom-email-form' -%}
+    {%- form 'customer', id: newsletter_id -%}
       <div class="input-control">
         <div class="custom-form-main">
           <label
             for="customerEmail"
             aria-hidden="Email input"
-            hidden>
-          </label>
-          <input type="hidden" name="contact[tags]" value="newsletter">
+            hidden></label>
+          <input
+            type="hidden"
+            name="contact[tags]"
+            value="newsletter"
+          >
           <!-- Champ pour entrer l'adresse e-mail, avec un placeholder text personnalisable -->
           <input
             name="contact[email]"
@@ -32,15 +32,15 @@
             id="customerEmail"
             required
             placeholder="{{ section.settings.placehoder_text }}" 
-            />
-            <!-- Bouton de soumission pour le formulaire -->
-          <button type="submit" class="custom-submit-btn">
+          />
+          <!-- Bouton de soumission pour le formulaire -->
+          <button type="submit" class="custom-submit-btn" title="Subscribe to newsletter">
             {% render 'custom-icon-arrow-right' %}
           </button>
         </div>
         <!-- Vérifier s'il y a des erreurs de formulaire -->
         {% if form.errors %}
-          <span class="error">
+          <span class="error" role="alert">
             {{ form.errors | default_errors }}
           </span>
         {% endif %}

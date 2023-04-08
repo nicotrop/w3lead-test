@@ -24,15 +24,15 @@
     }
   {% endstyle %}
   <div class="breadcrumb-wrapper">
-    <ol class="breadcrumb-container">
+    <ol class="breadcrumb-container" aria-label="Breadcrumb navigation">
       <!-- Lien vers la page d'accueil -->
       <li>
         <a href="/">Home</a>
       </li>
-
       <!-- Séparateur personnalisable -->
-      {{ section.settings.separator }}
-
+      <span aria-hidden="true">
+        {{ section.settings.separator }}
+      </span>
       <!-- For loop pour afficher les collections associées au produit -->
       {% for collection in product.collections %}
         <!-- Pour toutes collections autre que All Products -->
@@ -42,11 +42,13 @@
             <a href="{{ collection.url }}">{{ collection.title }}</a>
           </li>
           <!-- Séparateur personnalisable -->
-          {{ section.settings.separator }}
+          <span aria-hidden="true">
+            {{ section.settings.separator }}
+          </span>
         {% endif %}
       {% endfor %}
       <!-- Lien vers le produit -->
-      <li>
+      <li aria-current="page">
         <a href="{{ product.url }}">{{ product.title }}</a>
       </li>
     </ol>

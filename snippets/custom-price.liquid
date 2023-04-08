@@ -9,27 +9,26 @@
     color: #000000;
   }
   .custom-compare-price {
-  text-decoration: line-through;
-  color: #999999;
- }
- .custom-comparator {
+    text-decoration: line-through;
+    color: #999999;
+  }
+  .custom-comparator {
     display: flex;
     align-items: center;
     gap: 11px;
     height: fit-content;
- } 
- .custom-discount-badge {
+  }
+  .custom-discount-badge {
     width: 44px;
     text-align: center;
     padding: 5px 8px;
-    line-height: 12px; 
-    font-size: 10px; 
-    font-weight: 800; 
-    color: white; 
-    background-color: black; 
+    line-height: 12px;
+    font-size: 10px;
+    font-weight: 800;
+    color: white;
+    background-color: black;
     border-radius: 15px;
- }
-
+  }
 {% endstyle %}
 
 {%- liquid
@@ -67,7 +66,7 @@
         <div class="custom-price-big-price">
             <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
             <!-- Prix  -->
-            <span>
+            <span aria-label="Product price">
                 {{ money_price }}
             </span>
         </div>
@@ -75,19 +74,19 @@
         <!-- Si produit est en soldes  -->
         <div class="custom-comparator custom-price-big-price">
             <!-- Prix  -->
-            <span>
+            <span aria-label="Sale price">
                 {{ money_price }}
             </span>
             <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
 
             <!-- Prix barré  -->
             <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-            <span class="custom-compare-price">
+            <span class="custom-compare-price" aria-label="Regular price">
                 {{ compare_at_price }}
             </span>
 
             <!-- Discount badge en pourcentage  -->
-            <span class="custom-discount-badge">
+            <span class="custom-discount-badge" aria-label="Discount percentage">
             {{ percent_off }}
             </span>
 

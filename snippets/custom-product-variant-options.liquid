@@ -55,15 +55,19 @@
   {% assign current_color = color_arr[forloop.index0] %}
 
   <input
-  type="radio"
+    type="radio"
     id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
     name="{{ option.name }}"
     value="{{ value | escape }}"
     form="{{ product_form_id }}"
     {% if option.selected_value == value %}
-    checked
-    {% endif %}>
-
+      checked
+      aria-checked="true"
+    {% else %}
+      aria-checked="false"
+    {% endif %}
+      aria-label="{{ value }}"
+  >
   <!-- Si le nom de l'option n'est pas couleur -->
   {% unless option.name == "Couleur" %}
     <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="custom-size-input">
@@ -74,6 +78,7 @@
     <label
       for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
       style="background-color: {{ current_color }};"
-      class="custom-color-input"></label>
+      class="custom-color-input">
+    </label>
   {% endunless %}
 {%- endfor -%}

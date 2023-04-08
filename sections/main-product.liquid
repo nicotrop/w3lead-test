@@ -35,6 +35,10 @@
       padding: 0;
     }
 
+    .custom-btn-wrapper {
+      margin: 32px 0;
+    }
+
   {%- endstyle -%}
 
   <!-- Import des fichiers JS -->
@@ -73,23 +77,21 @@
 
             <!-- Customization du block type pour le titre avec le coeur  -->
             {%- when 'title' -%}
-            <div class="custom-title-container">
+            <div class="custom-title-container" aria-label="Product title with heart icon">
               <h1 class="custom-title">{{ product.title | split: '-' | last }}</h1>
               {% render 'icon-custom-heart' %}
             </div>
 
-            <!-- Snipper pour montrer le prix  -->
+            <!-- Snippet pour montrer le prix  -->
             {%- when 'price' -%}
-            <div
-              id="price-{{ section.id }}"
-              >
-              {%- render 'custom-price', product: product,
-                -%}
+            <div id="price-{{ section.id }}">
+              <!-- Passe l'object product en params pour la reusabilité  -->
+              {%- render 'custom-price', product: product -%}
             </div>
 
             <!-- Section pour l'onglet depliant -->
             {%- when 'collapsible_tab' -%}
-              <div class="coll-box">
+              <div class="coll-box" aria-expanded="false">
                 <div class="coll-box-header">
                   <!-- Si l'utilisateur selectionne de montrer la description sur cet onglet?
                    description en titre et description en texte  -->
@@ -211,11 +213,11 @@
 
             <!-- Section pour le bouton d'ajout au panier et de reservation en boutique -->
             {%- when 'buy_buttons' -%}
-            <div style="margin: 32px 0;">
+            <div class="custom-btn-wrapper">
               {%- render 'custom-buy-buttons', product: product, product_form_id: product_form_id, section_id: section.id -%}
               <!-- Si la checkbox pickup_in_store est selectionnée montre le bouton réserver en boutique -->
               {% if block.settings.pickup_in_store %}
-                <button class="pickup-btn">
+                <button class="pickup-btn" aria-label="Réserver en boutique">
                   {% render 'icon-custom-store' %}
                   <span>Réserver en boutique</span>
                 </button>
