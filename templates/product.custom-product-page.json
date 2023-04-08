@@ -5,46 +5,37 @@
       "blocks": {
         "title": {
           "type": "title",
-          "settings": {}
-        },
-        "subtitle": {
-          "type": "text",
           "settings": {
-            "text": "<p>Hello</p>",
-            "text_style": "subtitle"
+          }
+        },
+        "a6978ea5-571d-44cb-bec2-e0f0b2478403": {
+          "type": "subtitle",
+          "settings": {
           }
         },
         "price": {
           "type": "price",
-          "settings": {}
+          "settings": {
+          }
         },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "button"
           }
         },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": false
-          }
-        },
-        "72f61939-56eb-4548-9073-7b82f5094ba6": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Description",
-            "icon": "none",
-            "content": "{{ product.metafields.custom.product_title | metafield_tag }}",
-            "page": ""
+            "show_dynamic_checkout": false,
+            "pickup_in_store": true
           }
         },
         "38316236-8556-4ae7-9f70-73f13da4d9aa": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Composition & Entretien",
-            "icon": "none",
-            "content": "<p>{{ product.metafields.custom.composition | metafield_tag }}</p>",
+            "product_description": false,
+            "content": "<p>{{ product.metafields.custom.composition | metafield_tag }}<\/p>",
             "page": ""
           }
         },
@@ -52,23 +43,23 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Livraison & Retour",
-            "icon": "none",
-            "content": "<p>{{ product.metafields.custom.shipping | metafield_tag }}</p>",
+            "product_description": false,
+            "content": "<p>{{ product.metafields.custom.shipping | metafield_tag }}<\/p>",
             "page": ""
           }
         }
       },
       "block_order": [
         "title",
-        "subtitle",
+        "a6978ea5-571d-44cb-bec2-e0f0b2478403",
         "price",
         "variant_picker",
         "buy_buttons",
-        "72f61939-56eb-4548-9073-7b82f5094ba6",
         "38316236-8556-4ae7-9f70-73f13da4d9aa",
         "fa559c6a-256b-42dd-8ec9-c31db69ebea5"
       ],
-      "settings": {}
+      "settings": {
+      }
     },
     "related-products": {
       "type": "related-products",
@@ -99,13 +90,7 @@
     "custom-breadcrumbs": {
       "type": "custom-breadcrumbs",
       "settings": {
-        "separator": " / "
-      }
-    },
-    "custom-breadcrumbs": {
-      "type": "custom-breadcrumbs",
-      "settings": {
-        "separator": " / "
+        "separator": "\/"
       }
     }
   },
