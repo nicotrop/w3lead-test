@@ -1,0 +1,87 @@
+<!-- Section breadcrumbs pour la page de produit -->
+<section class="page-width">
+  {% style %}
+    .breadcrumb-wrapper {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      padding: 2rem 15px;
+    }
+    .breadcrumb-container {
+      list-style: none;
+      display: flex;
+      gap: 5px;
+      padding: 0;
+    }
+    .breadcrumb-container li a {
+      color: black;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 400;
+    }
+    .breadcrumb li a:hover {
+      text-decoration: underline;
+    }
+  {% endstyle %}
+  <div class="breadcrumb-wrapper">
+    <ol class="breadcrumb-container" aria-label="Breadcrumb navigation">
+      <!-- Lien vers la page d'accueil -->
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <!-- Séparateur personnalisable -->
+      <span aria-hidden="true">
+        {{ section.settings.separator }}
+      </span>
+      <!-- For loop pour afficher les collections associées au produit -->
+      {% for collection in product.collections %}
+        <!-- Pour toutes collections autre que All Products -->
+        {% if collection.title != 'All Products' %}
+        <!-- Lien vers la collection -->
+          <li>
+            <a href="{{ collection.url }}">{{ collection.title }}</a>
+          </li>
+          <!-- Séparateur personnalisable -->
+          <span aria-hidden="true">
+            {{ section.settings.separator }}
+          </span>
+        {% endif %}
+      {% endfor %}
+      <!-- Lien vers le produit -->
+      <li aria-current="page">
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- Schéma pour les paramètres de la section -->
+
+{% schema %}
+  {
+    "name": "Breadcrumb",
+    "tag": "section",
+    "class": "breadcrumb",
+    "settings": [
+      {
+        "type": "text",
+        "id": "separator",
+        "label": "Separator",
+        "default": " / "
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product Page Breadcrumb",
+        "category": "Breadcrumb",
+        "settings": {
+          "separator": " / "
+        }
+
+      }
+    ],
+    "enabled_on": {
+      "templates": ["product"]
+    }
+  }
+{% endschema %}

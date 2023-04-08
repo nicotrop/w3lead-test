@@ -1,0 +1,290 @@
+{%- style -%}
+  /* Définition du padding commun a chaque pages */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}
+    px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}
+    px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}
+      px;
+      padding-bottom: {{ section.settings.padding_bottom }}
+      px;
+    }
+  }
+
+  /* Styling de balises p du rich text editor et des liens */
+  .custom-text-styling p,
+  .custom-reassurance-links a {
+    font-size: 12px;
+    font-weight: 400;
+    color: black;
+  }
+
+  .custom-text-styling,
+  .custom-reassurance-links a {
+    text-decoration: none;
+  }
+
+  .custom-text-styling a:hover,
+  .custom-reassurance-links a:hover {
+    text-decoration: underline;
+    transition: 0.3s ease;
+  }
+
+  .custom-rte {
+    padding_bottom: 2rem;
+  }
+
+  .custom-reassurance-wrapper figure {
+    margin-block: 0;
+    margin-inline: 0;
+  }
+{%- endstyle -%}
+
+{% comment %} Logique pour le styling dynamique des blocs text, image et lien {% endcomment %}
+{% capture alignImg %}
+  {% unless block.settings.full_width %}
+    {% case block.settings.horizontal_alignment %}
+      {% when 'left' %}
+      flex-start
+      {% when 'center' %}
+      center
+      {% when 'right' %}
+      flex-end
+    {% else %}
+      center
+    {% endcase %}
+  {% endunless %}
+{% endcapture %}
+
+{% capture alignText %}
+  {% case block.settings.text_alignment %}
+    {% when 'left' %}
+    left
+    {% when 'center' %}
+    center
+    {% when 'right' %}
+    right
+  {% else %}
+    center
+  {% endcase %}
+{% endcapture %}
+
+{% capture alignLink %}
+  {% case block.settings.link_alignment %}
+    {% when 'left' %}
+    left
+    {% when 'center' %}
+    center
+    {% when 'right' %}
+    right
+  {% else %}
+    center
+  {% endcase %}
+{% endcapture %}
+
+<section class="page-width section-{{ section.id }}-padding">
+  <div class="custom-reassurance-wrapper" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+    <!-- Boucle sur tout les blocs -->
+    {% for block in section.blocks %}
+      {%- case block.type -%}
+        {% when 'text' %}
+          <!-- Affiche le contenu du rich text editor avec le positionement selectionné -->
+          <div class="rte custom-rte custom-text-styling" style="text-align: {{ alignText }};">
+            {{ block.settings.text }}
+          </div>
+        {% when 'image' %}
+          {% if block.settings.image_reassurance != blank %}
+            <!-- Si l'option full-width n'a pas été selectionné, applique le positionement dynamique  -->
+            <figure style="display: flex; {% unless block.settings.full_width %} justify-content: {{ alignImg }}; {% endunless %}  width: 100%;">
+              <!-- Sinon affiche la en full-width tout en maintenant l'apect ratio de l'image   -->
+              <img
+                src="{{ block.settings.image_reassurance | img_url: 'large' }}"
+                alt="{{ block.settings.image_reassurance.alt | escape }}"
+                {% if block.settings.full_width %}
+                style="width: 100%; aspect-ratio: {{ block.settings.image_reassurance.aspect_ratio }} ;"
+                {% endif %}>
+            </figure>
+          {% endif %}
+        {% when 'link' %}
+          <div class="custom-reassurance-links">
+          <!-- Sauf si l'utilisateur à choisi de linker une page -->
+          {% unless block.settings.page %}
+            <!-- Si l'url du lien est entré -->
+            {% if block.settings.link_url != blank %}
+              <!-- Affiche le lien avec le text -->
+              <a
+                href="{{ block.settings.link_url }}"
+                class=""
+                style="text-align: {{ alignLink }};">
+                {{ block.settings.link_text }}
+              </a>
+            {% endif %}
+            <!-- Sinon -->
+          {% else %}
+            <!-- Affiche le lien de la page -->
+            <a
+              href="{{ block.settings.page.url }}"
+              style="text-align: {{ alignLink }}"
+              ;>{{ block.settings.page.title }}</a>
+          {% endunless %}
+        </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Reassurance",
+    "tag": "section",
+    "class": "reassurance",
+    "settings": [
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding top",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 20
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding bottom",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 20
+      }
+    ],
+    "blocks": [
+      {
+        "type": "text",
+        "name": "t:sections.rich-text.blocks.text.name",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+            "label": "t:sections.rich-text.blocks.text.settings.text.label"
+          }, {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              }, {
+                "value": "center",
+                "label": "Center"
+              }, {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "center"
+          }
+        ]
+      }, {
+        "type": "image",
+        "name": "Image",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image_reassurance",
+            "label": "Image"
+          }, {
+            "type": "select",
+            "id": "horizontal_alignment",
+            "label": "Horizontal alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              }, {
+                "value": "center",
+                "label": "Center"
+              }, {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "center"
+          }, {
+            "type": "checkbox",
+            "id": "full_width",
+            "label": "Show full width",
+            "default": true
+          }
+        ]
+      }, {
+        "type": "link",
+        "name": "Link",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Text",
+            "default": "Learn more"
+          }, {
+            "type": "text",
+            "id": "link_url",
+            "label": "Paste URL",
+            "default": "#"
+          }, {
+            "type": "page",
+            "id": "page",
+            "label": "Select a page to link to"
+          }, {
+            "type": "select",
+            "id": "link_alignment",
+            "label": "Link alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              }, {
+                "value": "center",
+                "label": "Center"
+              }, {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "center"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Reassurance",
+        "blocks": [
+          {
+            "type": "text",
+            "settings": {
+              "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+            }
+          }, {
+            "type": "image"
+          }, {
+            "type": "link",
+            "settings": {
+              "link_text": "Learn more",
+              "link_url": "#"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

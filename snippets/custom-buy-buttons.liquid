@@ -1,0 +1,119 @@
+{% style %}
+  .custom-button {
+    border-radius: 45px; 
+    text-transform: uppercase; 
+    text-size: 19px;
+  }
+  .custom-button:hover, .custom-atc-btn-content:hover {
+    border: none!important;
+  }
+  .custom-atc-btn-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+{% endstyle %}
+
+<div>
+  <!-- Si le produit existe -->
+  {%- if product != blank -%}
+    <product-form class="product-form">
+      <!-- Error handling d'origine du theme, toggle visible si message d'erreur -->
+      <div class="product-form__error-message-wrapper" role="alert" hidden>
+        {% render 'icon-error' %}
+        <span class="product-form__error-message"></span>
+      </div>
+      <!-- Formulaire produit de shopify -->
+      {%- form 'product',
+        product,
+        id: product_form_id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <!-- Maintien de la classe pour js d'origine -->
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          disabled
+          id="product-variant-id-{{ section_id }}"
+          class="product-variant-id"
+          title="product-variant-id-{{ section_id }}"
+        >
+        <div class="product-form__buttons">
+          <!-- Logique d'origine pour verifier les regles de quantité -->
+          {%- liquid
+            assign check_against_inventory = true
+            if product.selected_or_first_available_variant.inventory_management != 'shopify' or  product.selected_or_first_available_variant.inventory_policy == 'continue'
+              assign check_against_inventory = false
+            endif
+            if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+              assign quantity_rule_soldout = true
+            endif
+          -%}
+          <!-- Bouton add to cart -->
+          <button
+            id = "ProductSubmitButton-{{ section_id }}"
+            type="submit"
+            name="add"
+            class="product-form__submit button button--full-width custom-button"
+            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+              disabled
+            {% endif %}
+            aria-label="{{ 'products.product.add_to_cart' | t }}"
+          >
+            <!-- Ajout d'un div pour le contenu du bouton -->
+            <div class="custom-atc-btn-content">
+              <span>
+                <!-- Soldout si le variant n'est pas disponible ou la logique de quantité n'est pas respectée -->
+                {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- else -%}
+                <!-- Sinon montre Add to cart -->
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- endif -%}
+              </span>
+              <!-- Montre aussi le prix si le variant est disponible -->
+              {%- unless product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+              <!-- Montre aussi le prix -->
+              <span aria-label="Product price">
+                {{ product.price | money_with_currency }}
+              </span>
+              {%- endunless -%}
+            </div>
+
+            <!-- Loading spinner d'origine du theme -->
+            <div class="loading-overlay__spinner hidden">
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="spinner"
+                viewBox="0 0 66 66"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+              </svg>
+            </div>
+          </button>
+        </div>
+      {%- endform -%}
+    </product-form>
+  <!-- Sinon montre un bouton sold out -->
+  {%- else -%}
+    <div class="product-form">
+      <div class="product-form__buttons form">
+        <button
+          type="submit"
+          name="add"
+          class="product-form__submit button button--full-width button--primary"
+          disabled
+        >
+          {{ 'products.product.sold_out' | t }}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+</div>

@@ -1,0 +1,53 @@
+{{ 'custom-product-gallery.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-product-gallery.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="custom-gallery-wrapper">
+  <!-- Conteneur pour l'affichage de l'image principale -->
+  <div class="custom-image-container">
+    {% for image in product.images %}
+      <div class="slide">
+        <!-- Lien pour l'affichage de l'image avec fancybox -->
+        <a href={{ image | img_url: '500x' }} data-fancybox="gallery-a">
+          <img
+            class="custom-img"
+            src={{ image | img_url: '500x' }}
+            alt={{ image.alt | default: 'Image produit' }}>
+        </a>
+      </div>
+    {% endfor %}
+     <!-- Si il y a des tags -->
+    {% if product.tags %} 
+    <!-- Affichage du badge du premier tag -->
+    <span class="custom-product-tag">
+      {{ product.tags | first | remove: 'tag:' | upcase }}
+    </span>
+    {% endif %}
+  </div>
+
+  <!-- Affichage des vignettes d'images si +1 images -->
+  {% if product.images.size > 1 %}   
+  <div class="thumbnail-wrapper">
+    <div class="thumbnail-container">
+      {% for image in product.images %}
+        <!-- Bouton pour changer l'image en display -->
+        <button class="custom-thumbnail" onclick="activeSlide({{ forloop.index }})">
+            <img
+            class="custom-img"
+            src={{ image | img_url: 'medium' }}
+            alt={{ image.alt }}>
+        </a>
+        </button>
+      {% endfor %}
+    </div>
+
+    <!-- Boutons pour changer d'image -->
+    <a class="previous" onclick="moveSlides(-1)" aria-label="Précédent">
+      {% render 'icon-custom-chevron-left' %}
+    </a>
+    <a class="next" onclick="moveSlides(1)" aria-label="Suivant">
+      {% render 'icon-custom-chevron-right' %}
+    </a>
+  </div>
+  {% endif %}
+</div>

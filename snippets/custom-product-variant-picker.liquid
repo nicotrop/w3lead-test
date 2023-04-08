@@ -1,0 +1,52 @@
+{% style %}
+  .custom-variant-selector-wrapper {
+    margin: 24px 0 0;
+  }
+
+  .product-form__input,
+  .custom-form-variant {
+    margin-bottom: 24px;
+  }
+
+  .product-form__input:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .custom-variant-selector-wrapper a {
+    color: #2F2F2F;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 14.52px;
+    margin-top: -5px;
+    text-decoration: underline;
+  }
+{% endstyle %}
+
+<!-- Utilisation du composant "variant-radios" pour afficher les options de variantes d'un produit -->
+<div class="custom-variant-selector-wrapper">
+  <variant-radios
+    id="variant-radios-{{ section.id }}"
+    class="no-js-hidden"
+    aria-labelledby="variant-radios-label-{{ section.id }}"
+    data-section="{{ section.id }}"
+    data-url="{{ product.url }}"
+  >
+    <!-- Loop sur les options de produit pour créer un champ de saisie pour chaque option -->
+    {%- for option in product.options_with_values -%}
+      <!-- Fieldset pour maintenir le code JS et associer chaque champ de saisie à son option -->
+      <fieldset class="js product-form__input custom-form-variant" role="radiogroup">
+        <legend class="custom-form-label">{{ option.name }}</legend>
+        <!-- Le code pour afficher les boutons de chaque option en utilisant un snippet réutilisable -->
+        {% render 'custom-product-variant-options', product: product, option: option %}
+      </fieldset>
+    {%- endfor -%}
+    <!-- Sérialisation des variantes du produit pour les rendre disponibles dans le code JavaScript -->
+    <script type="application/json">
+      {{ product.variants | json }}
+    </script>
+  </variant-radios>
+  <!-- Lien vers le guide des tailles -->
+  <a href={{ pages["guide-des-tailles"].url }} aria-label="Lien pour la page {{ pages["guide-des-tailles"].title }}">
+    {{ pages["guide-des-tailles"].title }}
+  </a>
+</div>

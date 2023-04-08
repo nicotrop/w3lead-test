@@ -1,0 +1,84 @@
+{% style %}
+  /* Style commun */
+  .product-form__input input[type="radio"] + label,
+  .custom-size-input,
+  .product-form__input input[type="radio"]:checked + label,
+  .custom-color-input {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    display: inline-flex;
+    text-align: center;
+  }
+
+  /* Style pour les boutons tailles selectionnés */
+  .product-form__input input[type="radio"]:checked + label.custom-size-input {
+    background-color: black;
+  }
+
+  /* Style pour les boutons couleurs selectionnés */
+  .product-form__input input[type=radio]:checked + label.custom-color-input {
+    border-block-start-color: white;
+    box-shadow: inset 0 0 0 4px #fff;
+    border-color: black;
+  }
+{% endstyle %}
+
+{%- liquid
+  comment 
+    Code d'origine du theme pour declarer le nom ou l'id du formulaire produit
+  endcomment
+  assign product_form_id = 'product-form-' | append: section.id
+
+  comment 
+    Code rajouté pour extraire les couleurs des variantes
+  endcomment
+  assign variant_colors = product.variants.metafields | map: 'custom.product_color' 
+-%}
+
+<!-- Stockage des couleurs dans la variable color list à partir des metafields de chaque variante -->
+{% capture color_list %}
+  {% for variant in product.variants %}
+    {{ variant.metafields.custom.product_color }}
+  {% endfor %}
+{% endcapture %}
+
+<!-- Creation d'un array avec toute les couleurs et suppression des doublons dans la liste des couleurs -->
+{% assign color_arr = color_list | split: ' ' %}
+
+
+<!-- For loop sur toutes les valeurs des options disponible -->
+{%- for value in option.values -%}
+
+  <!-- Stocker le hex code de la couleur situé à l'index actuel -->
+  {% assign current_color = color_arr[forloop.index0] %}
+
+  <input
+    type="radio"
+    id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+    name="{{ option.name }}"
+    value="{{ value | escape }}"
+    form="{{ product_form_id }}"
+    {% if option.selected_value == value %}
+      checked
+      aria-checked="true"
+    {% else %}
+      aria-checked="false"
+    {% endif %}
+      aria-label="{{ value }}"
+  >
+  <!-- Si le nom de l'option n'est pas couleur -->
+  {% unless option.name == "Couleur" %}
+    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="custom-size-input">
+      {{ value -}}
+    </label>
+    <!-- Si le nom de l'option est pas couleur, modifie la background color -->
+  {% else %}
+    <label
+      for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+      style="background-color: {{ current_color }};"
+      class="custom-color-input">
+    </label>
+  {% endunless %}
+{%- endfor -%}

@@ -665,9 +665,6 @@ h6:empty {
   margin-left: 1rem;
 }
 
-a:not([href]) {
-  cursor: not-allowed;
-}
 
 .circle-divider::after {
   content: "\2022";
@@ -1362,7 +1359,7 @@ button.shopify-payment-button__button--unbranded {
   left: 0;
   z-index: -1;
   border-radius: var(--buttons-radius-outset);
-  box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset)
+  /* box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) */
     var(--shadow-blur-radius) rgba(var(--color-shadow), var(--shadow-opacity));
 }
 
@@ -1378,10 +1375,10 @@ button.shopify-payment-button__button--unbranded {
   left: var(--buttons-border-width);
   z-index: 1;
   border-radius: var(--buttons-radius);
-  box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
+  /* box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
       rgba(var(--color-button-text), var(--border-opacity)),
     0 0 0 var(--buttons-border-width)
-      rgba(var(--color-button), var(--alpha-button-background));
+      rgba(var(--color-button), var(--alpha-button-background)); */
   transition: box-shadow var(--duration-short) ease;
 }
 
@@ -1390,10 +1387,10 @@ button.shopify-payment-button__button--unbranded {
 .customer button:hover::after,
 .shopify-payment-button__button--unbranded:hover::after {
   --border-offset: 1.3px;
-  box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
+  /* box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
       rgba(var(--color-button-text), var(--border-opacity)),
     0 0 0 calc(var(--buttons-border-width) + 1px)
-      rgba(var(--color-button), var(--alpha-button-background));
+      rgba(var(--color-button), var(--alpha-button-background)); */
 }
 
 .button--secondary:after {
@@ -2318,13 +2315,6 @@ product-info .loading-overlay:not(.hidden) ~ *,
   align-items: center;
 }
 
-.custom-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 88px;
-}
-
 @media screen and (min-width: 990px) {
   .header--top-left,
   .header--middle-left:not(.header--has-menu) {
@@ -2718,14 +2708,14 @@ details[open] > .header__submenu {
 .header__menu-item {
   padding: 1.2rem;
   text-decoration: none;
-  color: rgba(var(--color-foreground), 0.75);
   font-weight: 700;
   font-size: 14px;
   line-height: 19px;
+  color: black;
 }
 
 .header__menu-item:hover {
-  color: rgb(var(--color-foreground));
+  color: black;
 }
 
 .header__menu-item span {

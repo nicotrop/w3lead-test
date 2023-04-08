@@ -1,0 +1,80 @@
+<!-- Section en reutilisant les classes de margin par  defaut -->
+<section class="page-width section-{{ section.id }}-padding">
+  <!-- Import du fichier CSS correspondant -->
+  {{ 'custom-newsletter.css' | asset_url | stylesheet_tag }}
+
+    <div class="custom-newsletter-wrapper">
+    <!-- Titre de la section personnalisable -->
+    <h2 class="custom-newsletter-header">{{ section.settings.heading }}</h2>
+    <!-- Sous-titre de la section personnalisable -->
+    <span class="custom-newsletter-subheader">{{ section.settings.subheading }}</span>
+
+    <!-- Déclarer une variable avec l'id de la section pour le formulaire customer -->
+    {%- assign newsletter_id = 'newsletter-' | append: section.id -%}
+
+    <!-- Formulaire customer -->
+    {%- form 'customer', id: newsletter_id -%}
+      <div class="input-control">
+        <div class="custom-form-main">
+          <label
+            for="customerEmail"
+            aria-hidden="Email input"
+            hidden></label>
+          <input
+            type="hidden"
+            name="contact[tags]"
+            value="newsletter"
+          >
+          <!-- Champ pour entrer l'adresse e-mail, avec un placeholder text personnalisable -->
+          <input
+            name="contact[email]"
+            type="email"
+            id="customerEmail"
+            required
+            placeholder="{{ section.settings.placehoder_text }}" 
+          />
+          <!-- Bouton de soumission pour le formulaire -->
+          <button type="submit" class="custom-submit-btn" title="Subscribe to newsletter">
+            {% render 'custom-icon-arrow-right' %}
+          </button>
+        </div>
+        <!-- Vérifier s'il y a des erreurs de formulaire -->
+        {% if form.errors %}
+          <span class="error" role="alert">
+            {{ form.errors | default_errors }}
+          </span>
+        {% endif %}
+      </div>
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Newsletter section",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Section heading",
+        "default": "Inscrivez-vous à notre newsletter"
+      }, {
+        "type": "text",
+        "id": "subheading",
+        "label": "Section subheading",
+        "default": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, magnam?"
+      }, {
+        "type": "text",
+        "id": "placehoder_text",
+        "label": "Section placeholder text",
+        "default": "Adresse e-mail"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Newsletter section"
+      }
+    ]
+  }
+{% endschema %}

@@ -8,11 +8,9 @@
           "settings": {
           }
         },
-        "subtitle": {
-          "type": "text",
+        "a6978ea5-571d-44cb-bec2-e0f0b2478403": {
+          "type": "subtitle",
           "settings": {
-            "text": "{{ product.metafields.descriptors.subtitle.value }}",
-            "text_style": "subtitle"
           }
         },
         "price": {
@@ -23,21 +21,21 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "button"
           }
         },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": false
+            "show_dynamic_checkout": false,
+            "pickup_in_store": true
           }
         },
-        "72f61939-56eb-4548-9073-7b82f5094ba6": {
+        "afbb427d-a503-4554-8255-999f9b7892ed": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Description",
-            "icon": "none",
-            "content": "{{ product.metafields.custom.product_title | metafield_tag }}",
+            "heading": "Collapsible row",
+            "product_description": true,
+            "content": "",
             "page": ""
           }
         },
@@ -45,7 +43,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Composition & Entretien",
-            "icon": "none",
+            "product_description": false,
             "content": "<p>{{ product.metafields.custom.composition | metafield_tag }}<\/p>",
             "page": ""
           }
@@ -54,7 +52,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Livraison & Retour",
-            "icon": "none",
+            "product_description": false,
             "content": "<p>{{ product.metafields.custom.shipping | metafield_tag }}<\/p>",
             "page": ""
           }
@@ -62,31 +60,20 @@
       },
       "block_order": [
         "title",
-        "subtitle",
+        "a6978ea5-571d-44cb-bec2-e0f0b2478403",
         "price",
         "variant_picker",
         "buy_buttons",
-        "72f61939-56eb-4548-9073-7b82f5094ba6",
+        "afbb427d-a503-4554-8255-999f9b7892ed",
         "38316236-8556-4ae7-9f70-73f13da4d9aa",
         "fa559c6a-256b-42dd-8ec9-c31db69ebea5"
       ],
       "settings": {
-        "enable_sticky_info": true,
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "cover",
-        "gallery_layout": "thumbnail",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "mobile_thumbnails": "hide",
-        "hide_variants": false,
-        "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 36
       }
     },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -101,10 +88,26 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "custom-newsletter": {
+      "type": "custom-newsletter",
+      "settings": {
+        "heading": "Newsletter",
+        "subheading": "Subscribe to our newsletter and get 10% off your first purchase",
+        "placehoder_text": "Adresse e-mail"
+      }
+    },
+    "custom-breadcrumbs": {
+      "type": "custom-breadcrumbs",
+      "settings": {
+        "separator": "\/"
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "custom-newsletter",
+    "custom-breadcrumbs"
   ]
 }
