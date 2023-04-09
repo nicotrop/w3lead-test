@@ -29,12 +29,14 @@
     class="no-js-hidden"
     aria-labelledby="variant-radios-label-{{ section.id }}"
     data-section="{{ section.id }}"
-    data-url="{{ product.url }}"
-  >
+    data-url="{{ product.url }}">
     <!-- Loop sur les options de produit pour créer un champ de saisie pour chaque option -->
     {%- for option in product.options_with_values -%}
       <!-- Fieldset pour maintenir le code JS et associer chaque champ de saisie à son option -->
-      <fieldset class="js product-form__input custom-form-variant" role="radiogroup">
+      <fieldset
+        class="js product-form__input custom-form-variant"
+        role="radiogroup"
+        data-option="option-{{ forloop.index }}">
         <legend class="custom-form-label">{{ option.name }}</legend>
         <!-- Le code pour afficher les boutons de chaque option en utilisant un snippet réutilisable -->
         {% render 'custom-product-variant-options', product: product, option: option %}
