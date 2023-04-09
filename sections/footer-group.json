@@ -1,1 +1,36 @@
-{"name":"t:sections.footer.name","type":"footer","sections":{"footer":{"type":"footer","blocks":{"footer-0":{"type":"link_list","settings":{"heading":"Quick links","menu":"footer"}},"footer-1":{"type":"link_list","settings":{"heading":"Info","menu":"footer"}},"footer-2":{"type":"text","settings":{"heading":"Our mission","subtext":"<p>Share contact information, store details, and brand content with your customers.<\/p>"}}},"block_order":["footer-0","footer-1","footer-2"],"settings":{"color_scheme":"background-1","newsletter_enable":true,"newsletter_heading":"Subscribe to our emails","enable_follow_on_shop":false,"show_social":true,"enable_country_selector":true,"enable_language_selector":true,"payment_enable":true,"show_policy":false,"margin_top":48,"padding_top":36,"padding_bottom":36}}},"order":["footer"]}
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "cc515036-634f-4d8a-9cfd-f8f58820426d": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Shop_logo_1.png",
+            "image_width": 145
+          }
+        },
+        "footer-0": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Quick links",
+            "menu": "menu-footer"
+          }
+        }
+      },
+      "block_order": [
+        "cc515036-634f-4d8a-9cfd-f8f58820426d",
+        "footer-0"
+      ],
+      "settings": {
+        "bottom_menu": "footer",
+        "signature_text": "Made by W3lead For Testing Purposes"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}
