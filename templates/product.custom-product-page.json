@@ -102,12 +102,50 @@
       "settings": {
         "separator": "\/"
       }
+    },
+    "1f87d895-c0eb-4ef6-96d5-c23303b60e6e": {
+      "type": "custom-reassurance",
+      "blocks": {
+        "template--16725297561851__1f87d895-c0eb-4ef6-96d5-c23303b60e6e-16813740598d8a3297-0": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>",
+            "text_alignment": "center"
+          }
+        },
+        "template--16725297561851__1f87d895-c0eb-4ef6-96d5-c23303b60e6e-16813740598d8a3297-1": {
+          "type": "image",
+          "settings": {
+            "horizontal_alignment": "center",
+            "full_width": true
+          }
+        },
+        "template--16725297561851__1f87d895-c0eb-4ef6-96d5-c23303b60e6e-16813740598d8a3297-2": {
+          "type": "link",
+          "settings": {
+            "link_text": "Learn more",
+            "link_url": "#",
+            "page": "",
+            "link_alignment": "center"
+          }
+        }
+      },
+      "block_order": [
+        "template--16725297561851__1f87d895-c0eb-4ef6-96d5-c23303b60e6e-16813740598d8a3297-0",
+        "template--16725297561851__1f87d895-c0eb-4ef6-96d5-c23303b60e6e-16813740598d8a3297-1",
+        "template--16725297561851__1f87d895-c0eb-4ef6-96d5-c23303b60e6e-16813740598d8a3297-2"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
     }
   },
   "order": [
     "main",
     "related-products",
     "custom-newsletter",
-    "custom-breadcrumbs"
+    "custom-breadcrumbs",
+    "1f87d895-c0eb-4ef6-96d5-c23303b60e6e"
   ]
 }
