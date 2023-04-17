@@ -1,33 +1,65 @@
 {% style %}
   /* Style commun */
-  .product-form__input input[type="radio"] + label,
-  .custom-size-input,
-  .product-form__input input[type="radio"]:checked + label,
-  .custom-color-input {
+  .custom-product-form__input input[type="radio"] + label {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     display: inline-flex;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-size: 12px;
+    transition: border var(--duration-short) ease;
+    cursor: pointer;
   }
+  
 
-  .product-form__input input[type="radio"]:checked + label,
-  .custom-color-input {
-    border: none !important;
-  }
+  /* Cacher les champs de saisies radio */
+  .custom-product-form__input input[type="radio"] {
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  position: absolute;
+  height: 1px;
+  width: 1px;
+ }
+
+ /* Défaire le style de l'element fieldset par default */
+ .custom-product-form__input {
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+  border: none;
+}
 
   /* Style pour les boutons tailles selectionnés */
-  .product-form__input input[type="radio"]:checked + label.custom-size-input {
+  .custom-product-form__input input[type="radio"]:checked + label.custom-size-input {
     background-color: black;
+    color: white;
+  }
+
+  /* Style pour les boutons tailles non-selectionnés */
+  .custom-product-form__input input[type="radio"]:not(:checked) + label.custom-size-input {
+    border: 1px solid black;
+    color: black;
+  }
+
+  /* Style pour les boutons tailles et couleurs disabled */
+  .custom-product-form__input input[type="radio"]:disabled + label {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
   /* Style pour les boutons couleurs selectionnés */
-  .product-form__input input[type=radio]:checked + label.custom-color-input {
+  .custom-product-form__input input[type=radio]:checked + label.custom-color-input {
     border-block-start-color: white;
     box-shadow: inset 0 0 0 4px #fff;
-    border-color: black;
-    border: 1px solid #000;
+    border: 1px solid black;
   }
+
+
+
 {% endstyle %}
 
 {%- liquid

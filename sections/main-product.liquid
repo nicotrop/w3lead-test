@@ -265,25 +265,27 @@
 
 <!-- Script pour le variant picker -->
 <script>
-  $(() => {
+  $(document).ready( () => {
     // Récupère les données du produit
     const variantData = JSON.parse($('[data-section="{{section.id}}"] script[type="application/json"]').html());
     // Récupère le div qui contient les prix
-    const priceLabel = $("div#price-label-{{ section.id }}");
+    const priceLabel = $("div#price-label-{{section.id}}");
     // Récupère les prix
     const regPrice = priceLabel.find("#custom-reg-price");
     const compPrice = priceLabel.find("#custom-comp-price");
     // Récupère le badge de promo
     const saleBadge = priceLabel.find("#custom-disc-badge");
     // Récupère le bouton d'ajout au panier
-    const atcBtn = $('#ProductSubmitButton-{{ section.id }}')
+    const atcBtn = $('#ProductSubmitButton-{{section.id}}')
     // Récupère le prix du bouton d'ajout au panier
     const atcPrice = atcBtn.find('#custom-atc-price');
 
     // Récupère les valeurs des options selectionnées
-    let curr_option_1 = $('fieldset[data-option="option-1"] input[checked]')[0] ?. value ?? null;
-    let curr_option_2 = $('fieldset[data-option="option-2"] input[checked]')[0] ?. value ?? null;
-    let curr_option_3 = $('fieldset[data-option="option-3"] input[checked]')[0] ?. value ?? null;
+    let curr_option_1 = $('fieldset[data-option="option-1"] input:checked')[0]?.value ?? null;
+    let curr_option_2 = $('fieldset[data-option="option-2"] input[checked]')[0]?.value ?? null;
+    let curr_option_3 = $('fieldset[data-option="option-3"] input[checked]')[0]?.value ?? null;
+
+    console.log(curr_option_1, curr_option_2, curr_option_3);
 
     // Fonction qui trouve la variante actuelle et retourne un objet avec les infos de la variante
     const findCurrentVariant = (curr_option_1, curr_option_2, curr_option_3) => {
@@ -305,7 +307,7 @@
     let curr_variant = findCurrentVariant(curr_option_1, curr_option_2, curr_option_3);
 
     // Récupère le variant selector
-    const variantPicker = $('variant-radios[data-section="{{ section.id }}"] fieldset');
+    const variantPicker = $('variant-radios[data-section="{{section.id}}"] fieldset');
 
     // Pour chaque option du variant selector
     variantPicker.each((index, elem) => {

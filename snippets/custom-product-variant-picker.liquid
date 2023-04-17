@@ -37,7 +37,7 @@
     {%- for option in productOptions -%}
       <!-- Fieldset pour maintenir le code JS et associer chaque champ de saisie à son option -->
       <fieldset
-        class="js product-form__input custom-form-variant"
+        class="js custom-product-form__input custom-form-variant"
         role="radiogroup"
         data-option="option-{{ forloop.index }}">
         <legend class="custom-form-label">{{ option.name }}</legend>

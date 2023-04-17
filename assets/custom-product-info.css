@@ -49,7 +49,6 @@ h1,
 
 @media screen and (min-width: 1200px) {
   .custom-section-sticky {
-    top: 168.75px;
     padding: 0;
   }
 }
