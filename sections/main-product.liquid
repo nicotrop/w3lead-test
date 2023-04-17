@@ -268,6 +268,7 @@
   $(document).ready( () => {
     // Récupère les données du produit
     const variantData = JSON.parse($('[data-section="{{section.id}}"] script[type="application/json"]').html());
+    console.log(variantData)
     // Récupère le div qui contient les prix
     const priceLabel = $("div#price-label-{{section.id}}");
     // Récupère les prix
@@ -279,13 +280,10 @@
     const atcBtn = $('#ProductSubmitButton-{{section.id}}')
     // Récupère le prix du bouton d'ajout au panier
     const atcPrice = atcBtn.find('#custom-atc-price');
-
     // Récupère les valeurs des options selectionnées
-    let curr_option_1 = $('fieldset[data-option="option-1"] input:checked')[0]?.value ?? null;
-    let curr_option_2 = $('fieldset[data-option="option-2"] input[checked]')[0]?.value ?? null;
+    let curr_option_1 = $('fieldset[data-option="option-2"] input[checked]')[0]?.value ?? null;
+    let curr_option_2 = $('fieldset[data-option="option-1"] input:checked')[0]?.value ?? null;
     let curr_option_3 = $('fieldset[data-option="option-3"] input[checked]')[0]?.value ?? null;
-
-    console.log(curr_option_1, curr_option_2, curr_option_3);
 
     // Fonction qui trouve la variante actuelle et retourne un objet avec les infos de la variante
     const findCurrentVariant = (curr_option_1, curr_option_2, curr_option_3) => {
@@ -303,8 +301,27 @@
       return curr_variant;
     };
 
+    // Fonction qui met à jour les tailles disponibles
+    const updateSizeOptions = () => {
+      const allCurrentSizes = $('fieldset[data-option="option-2"] input');
+      allCurrentSizes.each((index, sizeInput)=>{
+        const $sizeInput = $(sizeInput);
+        const sizeValue = $sizeInput.val();
+        const sizeVariant = findCurrentVariant(sizeValue, curr_option_2, curr_option_3);
+        if(!sizeVariant.available){
+          $sizeInput.attr('disabled', true);
+        } else {
+          $sizeInput.attr('disabled', false);
+        }
+      });
+    }
+
     // Récupère la variante actuelle
     let curr_variant = findCurrentVariant(curr_option_1, curr_option_2, curr_option_3);
+    updateSizeOptions();
+
+    //On mount, on récupère toutes les tailles pour disable les valeurs non disponibles
+
 
     // Récupère le variant selector
     const variantPicker = $('variant-radios[data-section="{{section.id}}"] fieldset');
@@ -321,13 +338,18 @@
         const var_val = $(this).val();
         const option = $elem.data("option");
 
-        // Met à jour la valeur de l'option
-        if (option === "option-1") {
+        // Met à jour la valeur de l'option, inversé pour prendre en compte les options inversées
+        if (option === "option-2") {
           curr_option_1 = var_val;
-        } else if (option === "option-2") {
+        } else if (option === "option-1") {
           curr_option_2 = var_val;
         } else if (option === "option-3") {
           curr_option_3 = var_val;
+        }
+
+        // Si l'option est la taille, on récupère toutes les tailles pour disable les valeurs non disponibles
+        if (option === "option-1") {
+          updateSizeOptions();
         }
 
         // Récupère la variante actuelle
