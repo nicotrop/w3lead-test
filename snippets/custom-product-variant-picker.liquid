@@ -1,4 +1,11 @@
 {% style %}
+
+  .custom-variant-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
   .custom-variant-selector-wrapper {
     margin: 24px 0 0;
   }
@@ -14,11 +21,12 @@
 
   .custom-variant-selector-wrapper a {
     color: #2F2F2F;
+    font-weight: 400;
     font-size: 12px;
-    font-weight: 700;
-    line-height: 14.52px;
-    margin-top: -5px;
-    text-decoration: underline;
+    line-height: 15px;
+    text-align: right;
+    text-decoration-line: underline;
+    margin-top: 8px;
   }
 {% endstyle %}
 
@@ -29,10 +37,11 @@
 <div class="custom-variant-selector-wrapper">
   <variant-radios
     id="variant-radios-{{ section.id }}"
-    class="no-js-hidden"
+    class="no-js-hidden custom-variant-wrapper"
     aria-labelledby="variant-radios-label-{{ section.id }}"
     data-section="{{ section.id }}"
-    data-url="{{ product.url }}">
+    data-url="{{ product.url }}"
+    >
     <!-- Loop sur les options de produit pour créer un champ de saisie pour chaque option -->
     {%- for option in productOptions -%}
       <!-- Fieldset pour maintenir le code JS et associer chaque champ de saisie à son option -->

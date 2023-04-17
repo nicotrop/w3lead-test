@@ -3,7 +3,7 @@
   id="MainProduct-{{ section.id }}"
   class="custom-page-width"
   data-section="{{ section.id }}"
-  style="position: relative; margin-top: 64px">
+  >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'custom-product-info.css' | asset_url | stylesheet_tag }}
@@ -47,7 +47,6 @@
     }
 
     .custom-page-width {
-      /* max-width: var(--page-width); */
       margin: 0 auto;
       padding: 0 1.5rem;
     }
@@ -61,9 +60,10 @@
       font-weight: 600;
       font-size: 12px;
       line-height: 15px;
+      margin-top: 14px;
       text-transform: uppercase;
-      margin: 14px 0 0 0;
       padding: 0;
+      color: #2F2F2F;
     }
 
     .custom-btn-wrapper {
@@ -82,7 +82,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
 
 
-  <div class="product product--large custom-grid">
+  <div class="product product--large custom-grid custom-product-wrapper">
     <!-- Snippet pour la gallerie photo -->
     {% render 'custom-product-gallery' %}
     <!-- Reste du code pour les informations concernant le produit -->
@@ -100,18 +100,18 @@
         {%- for block in section.blocks -%}
           {%- case block.type -%}
 
-            <!-- Customization du block type pour le subtitle  -->
+            <!-- Customization du block pour le titre avec le coeur  -->
+            {%- when 'title' -%}
+            <div class="custom-title-container">
+              <h1 class="custom-title">{{ product.title | split: '-' | last }}</h1>
+              {% render 'icon-custom-heart' %}
+            </div>
+
+            <!-- Customization du block pour le subtitle  -->
             {%- when 'subtitle' -%}
             <p class="custom-subtitle">
               {{- product.title | split: '-' | first -}}
             </p>
-
-            <!-- Customization du block type pour le titre avec le coeur  -->
-            {%- when 'title' -%}
-            <div class="custom-title-container" aria-label="Product title with heart icon">
-              <h1 class="custom-title">{{ product.title | split: '-' | last }}</h1>
-              {% render 'icon-custom-heart' %}
-            </div>
 
             <!-- Snippet pour montrer le prix  -->
             {%- when 'price' -%}
@@ -121,27 +121,27 @@
             </div>
 
             <!-- Section pour l'onglet depliant -->
-            {%- when 'collapsible_tab' -%}
-              <div class="coll-box" aria-expanded="false">
-                <div class="coll-box-header">
-                  <!-- Si l'utilisateur selectionne de montrer la description sur cet onglet?
-                   description en titre et description en texte  -->
-                  <!-- Sinon, on affiche le contenu de son input en titre et en texte  -->
-                  {% if block.settings.product_description == true %}
-                    <h3>Description</h3>
-                  {% else %}
-                    <h3>{{ block.settings.heading | default: block.settings.page.title }}</h3>
-                  {% endif %}
-                  {% render 'icon-custom-chevron-down' %}
+              {%- when 'collapsible_tab' -%}
+                <div class="coll-box" aria-expanded="false">
+                  <div class="coll-box-header">
+                    <!-- Si l'utilisateur selectionne de montrer la description sur cet onglet?
+                     description en titre et description en texte  -->
+                    <!-- Sinon, on affiche le contenu de son input en titre et en texte  -->
+                    {% if block.settings.product_description == true %}
+                      <h3>Description</h3>
+                    {% else %}
+                      <h3>{{ block.settings.heading | default: block.settings.page.title }}</h3>
+                    {% endif %}
+                    {% render 'icon-custom-chevron-down' %}
+                  </div>
+                  <div class="coll-box-text">
+                    {% if block.settings.product_description == true %}
+                      <p>{{ product.description }}</p>
+                    {% else %}
+                      <p>{{ block.settings.content }} {{ block.settings.page.content }}</p>
+                    {% endif %}
+                  </div>
                 </div>
-                <div class="coll-box-text">
-                  {% if block.settings.product_description == true %}
-                    <p>{{ product.description }}</p>
-                  {% else %}
-                    <p>{{ block.settings.content }} {{ block.settings.page.content }}</p>
-                  {% endif %}
-                </div>
-              </div>
 
               <!-- Je n'ai pas modifié le quantity_selector par manque de temps et d'experience -->
               {%- when 'quantity_selector' -%}
@@ -318,10 +318,8 @@
 
     // Récupère la variante actuelle
     let curr_variant = findCurrentVariant(curr_option_1, curr_option_2, curr_option_3);
-    updateSizeOptions();
-
     //On mount, on récupère toutes les tailles pour disable les valeurs non disponibles
-
+    updateSizeOptions();
 
     // Récupère le variant selector
     const variantPicker = $('variant-radios[data-section="{{section.id}}"] fieldset');

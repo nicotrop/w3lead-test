@@ -1,6 +1,6 @@
 {% style %}
   .price-wrapper {
-    margin-top: 14px;
+    margin-top: 16px;
   }
   .custom-price-big-price {
     font-weight: 800;
@@ -74,19 +74,20 @@
         <!-- Si produit est en soldes  -->
         <div class="custom-comparator custom-price-big-price">
             <!-- Prix  -->
-            <span id="custom-reg-price" aria-label="Regular price">
+            <span id="custom-reg-price">
                 {{ money_price }}
             </span>
             <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
 
             <!-- Prix barré  -->
             <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-            <span class="custom-compare-price" id="custom-comp-price" aria-label="Sale price">
+            <span class="custom-compare-price" id="custom-comp-price">
                 {{ compare_at_price }}
             </span>
 
             <!-- Discount badge en pourcentage  -->
-            <span class="custom-discount-badge" id="custom-disc-badge" aria-label="Discount percentage">
+            <span class="visually-hidden visually-hidden--inline"> Percent discount </span>
+            <span class="custom-discount-badge" id="custom-disc-badge">
             {{ percent_off }}
             </span>
 

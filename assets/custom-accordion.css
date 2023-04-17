@@ -5,6 +5,10 @@
   cursor: pointer;
 }
 
+.coll-box:not(:last-child) {
+  margin-bottom: 16px;
+}
+
 .coll-box-header {
   display: inline-flex;
   width: 100%;
@@ -17,12 +21,13 @@
   font-weight: 600;
   text-transform: uppercase;
   line-height: 14.52px;
+  padding: 8px 0;
+  margin: 0;
 }
 
 .coll-box-text {
   max-height: 0;
   overflow: scroll;
-  transition: max-height 0.5s ease;
 }
 
 .coll-box-text p {
@@ -34,7 +39,7 @@
 }
 
 .coll-box.active .coll-box-text {
-  max-height: 300px;
+  max-height: fit-content;
   padding-bottom: 8px;
 }
 
