@@ -1,9 +1,9 @@
 <!-- Import des fichiers CSS et reutilisation de class du Themes -->
 <section
   id="MainProduct-{{ section.id }}"
-  class="page-width section-{{ section.id }}-padding"
+  class="custom-page-width"
   data-section="{{ section.id }}"
-  style="position: relative;">
+  style="position: relative; margin-top: 64px">
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'custom-product-info.css' | asset_url | stylesheet_tag }}
@@ -26,6 +26,37 @@
       }
     }
 
+    .custom-grid-item {
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    @media screen and (min-width: 450px) {
+      .custom-grid-item {
+        width: 45%;
+      }
+    }
+
+    @media screen and (min-width: 990px) {
+      .custom-grid-item {
+        width: 497px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+
+    .custom-page-width {
+      /* max-width: var(--page-width); */
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    @media screen and (min-width: 750px) {
+      .custom-page-width {
+        padding: 0 64px;
+      }
+    }
     .custom-subtitle {
       font-weight: 600;
       font-size: 12px;
@@ -55,7 +86,7 @@
     <!-- Snippet pour la gallerie photo -->
     {% render 'custom-product-gallery' %}
     <!-- Reste du code pour les informations concernant le produit -->
-    <div class="custom-product-wrapper custom-grid-item">
+    <div class="custom-grid-item">
 
       <!-- Reutilisation du webcomponents avec l'utilisation d'une nouvelle classe pour l'effet sticky -->
       <product-info

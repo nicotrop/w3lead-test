@@ -22,6 +22,9 @@
   }
 {% endstyle %}
 
+{% comment %} Ajuster l'ordre des options {% endcomment %}
+{% assign productOptions = product.options_with_values | reverse  %}
+
 <!-- Utilisation du composant "variant-radios" pour afficher les options de variantes d'un produit -->
 <div class="custom-variant-selector-wrapper">
   <variant-radios
@@ -31,7 +34,7 @@
     data-section="{{ section.id }}"
     data-url="{{ product.url }}">
     <!-- Loop sur les options de produit pour créer un champ de saisie pour chaque option -->
-    {%- for option in product.options_with_values -%}
+    {%- for option in productOptions -%}
       <!-- Fieldset pour maintenir le code JS et associer chaque champ de saisie à son option -->
       <fieldset
         class="js product-form__input custom-form-variant"

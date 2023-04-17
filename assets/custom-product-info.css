@@ -37,17 +37,6 @@ h1,
   margin-bottom: 0;
 }
 
-.custom-grid-item {
-  width: 100%;
-  flex-grow: 1;
-}
-
-@media screen and (min-width: 450px) {
-  .custom-grid-item {
-    width: 45%;
-  }
-}
-
 @media screen and (min-width: 750px) {
   .custom-section-sticky {
     display: block;
@@ -55,6 +44,13 @@ h1,
     top: 3rem;
     z-index: 2;
     padding: 1rem 0;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .custom-section-sticky {
+    top: 168.75px;
+    padding: 0;
   }
 }
 
