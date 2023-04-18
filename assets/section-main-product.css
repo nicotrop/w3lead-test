@@ -1576,6 +1576,7 @@ a.product__text {
 
 .custom-product-wrapper {
   position: relative; 
+  margin-top: 1rem;
 }
 
 @media screen and (min-width: 990px) {

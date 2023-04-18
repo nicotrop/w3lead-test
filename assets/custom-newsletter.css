@@ -14,10 +14,16 @@
   gap: 12px;
 }
 
+.custom-newsletter-wrapper form {
+  width: 100%;
+  max-width: 613px;
+}
+
 .custom-form-main {
   border-radius: 45px;
   padding: 20px;
   height: 52px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,6 +43,9 @@
   font-weight: 400;
   font-size: 12px;
   text-align: center;
+  line-height: 15px;
+  color: #2F2F2F;
+  font-style: normal;
 }
 
 @media screen and (min-width: 990px) {
@@ -91,6 +100,10 @@
 
 .error ul li {
   list-style: none;
+}
+
+.custom-component-wrapper {
+  margin-top: 1rem;
 }
 
 @media screen and (min-width: 990px) {
