@@ -1,16 +1,23 @@
-.custom-newsletter-wrapper {
+.custom-newsletter-wrapper, .custom-newsletter-header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-newsletter-wrapper {
+  gap: 24px;
+}
+
+.custom-newsletter-header {
   gap: 12px;
-  padding: 2rem 0;
 }
 
 .custom-form-main {
   border-radius: 45px;
-  padding: 10px 20px;
+  padding: 20px;
   height: 52px;
-  margin-top: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,7 +41,7 @@
 
 @media screen and (min-width: 990px) {
   .custom-form-main {
-    width: 615px;
+    width: 613px;
   }
 }
 
@@ -84,4 +91,10 @@
 
 .error ul li {
   list-style: none;
+}
+
+@media screen and (min-width: 990px) {
+  .custom-component-wrapper {
+    margin-top: 64px;
+  }
 }

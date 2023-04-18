@@ -1,13 +1,17 @@
 <!-- Section en reutilisant les classes de margin par  defaut -->
-<section class="page-width section-{{ section.id }}-padding">
+<section class="page-width section-{{ section.id }}-padding custom-component-wrapper">
   <!-- Import du fichier CSS correspondant -->
   {{ 'custom-newsletter.css' | asset_url | stylesheet_tag }}
 
     <div class="custom-newsletter-wrapper">
-    <!-- Titre de la section personnalisable -->
-    <h2 class="custom-newsletter-header">{{ section.settings.heading }}</h2>
-    <!-- Sous-titre de la section personnalisable -->
-    <span class="custom-newsletter-subheader">{{ section.settings.subheading }}</span>
+
+    <!-- Separation du header selon la maquette figma -->
+    <div class="custom-newsletter-header">
+      <!-- Titre de la section personnalisable -->
+      <h2 class="custom-newsletter-header">{{ section.settings.heading }}</h2>
+      <!-- Sous-titre de la section personnalisable -->
+      <span class="custom-newsletter-subheader">{{ section.settings.subheading }}</span>
+    </div>
 
     <!-- Déclarer une variable avec l'id de la section pour le formulaire customer -->
     {%- assign newsletter_id = 'newsletter-' | append: section.id -%}
