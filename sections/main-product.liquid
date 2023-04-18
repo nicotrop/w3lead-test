@@ -329,20 +329,38 @@
     //Récupère la quantité
     const currentQty = $('.custom-qty-input-{{section.id}}').val();
 
+    //Récupére le loading spinner du bouton d'ajout au panier
+    const loadingSpinner = $('.loading-overlay__spinner');
+
     //Requette ajax pour ajouter au panier avec axios
     atcBtn.on('click', async function(e) {
+      // Empêche le rechargement de la page
       e.preventDefault();
       console.log("Ajout au panier", curr_variant.id);
+      //Récupère la quantité
       const itemQty = getQty();
+      //Affiche le loading spinner
+      loadingSpinner.removeClass('hidden');
+      //Cache le contenu du bouton
+      atcBtn.find('.custom-atc-btn-content').hide();
+      //Requette ajax pour ajouter au panier
       await axios.post('/cart/add.js', {
         quantity: itemQty,
         id: curr_variant.id
       }).then(function (response) {
+        //Affiche la réponse dans la console
         console.log(response);
       }).catch(function (error) {
+        //Affiche l'erreur dans la console
         console.log(error);
+      }).finally(function () {
+        //Cache le loading spinner
+        loadingSpinner.addClass('hidden');
+        //Affiche le contenu du bouton
+        atcBtn.find('.custom-atc-btn-content').show();
+        //Recharge la page pour mettre à jour la bulle du panier
+        location.reload();
       });
-      location.reload();
     });
     
 

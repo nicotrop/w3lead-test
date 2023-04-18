@@ -79,15 +79,18 @@
   {% endfor %}
 {% endcapture %}
 
-<!-- Creation d'un array avec toute les couleurs et suppression des doublons dans la liste des couleurs -->
+<!-- Creation d'un array avec toute les couleurs -->
 {% assign color_arr = color_list | split: ' ' %}
 
 
-<!-- For loop sur toutes les valeurs des options disponible -->
+<!-- For loop sur toutes les valeurs de l'option actuelle -->
 {%- for value in option.values -%}
 
-  <!-- Stocker le hex code de la couleur situé à l'index actuel -->
-  {% assign current_color = color_arr[forloop.index0] %}
+  <!-- Si le nom de l'option est couleur -->
+  {% if option.name == 'Couleur' %} 
+    <!-- On stocke le hex code de la couleur situé à l'index actuel -->
+    {% assign current_color = color_arr[forloop.index0] %}
+  {% endif %}
 
   <input
   type="radio"

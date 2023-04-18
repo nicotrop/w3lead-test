@@ -66,7 +66,7 @@
         <div class="custom-price-big-price">
             <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
             <!-- Prix  -->
-            <span aria-label="Product price">
+            <span id="custom-reg-price">
                 {{ money_price }}
             </span>
         </div>
@@ -85,7 +85,7 @@
                 {{ compare_at_price }}
             </span>
 
-            <!-- Discount badge en pourcentage  -->
+            <!-- Discount badge en percentage  -->
             <span class="visually-hidden visually-hidden--inline"> Percent discount </span>
             <span class="custom-discount-badge" id="custom-disc-badge">
             {{ percent_off }}

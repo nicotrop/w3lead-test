@@ -43,6 +43,7 @@
 
 <div class="custom-product-qty">
     <div class="custom-qty-selector">
+         <!-- Bouton minus -->
         <button
             class="custom-minus-btn"
             name="minus"
@@ -53,6 +54,7 @@
             </span>
             {% render 'icon-minus' %}
         </button>
+        <!-- Input pour affiché la quantité -->
         <input
             class="custom-qty-input-{{section.id}}"
             type="text"
@@ -61,6 +63,7 @@
             value="{{ product.selected_or_first_available_variant.quantity_rule.min | default: 1 }}"
             form="{{ product_form_id }}" 
         />
+        <!-- Bouton plus -->
         <button
         class="custom-plus-btn"
         name="plus"
@@ -75,22 +78,33 @@
 
 <script>
     $(document).ready(function(){
+        // Récupère la valeur actuelle de l'input
         let currentVal = $('.custom-qty-input-{{section.id}}').val();
+        // Sélectionne les boutons plus et minus
         const minusBtn = $('.custom-minus-btn[name="minus"]');
         const plusBtn = $('.custom-plus-btn[name="plus"]');
+        // Désactive le bouton minus si la valeur est égale à 1
         if (currentVal == 1) {
             $('.custom-minus-btn[name="minus"]').attr('disabled', true);
         }
+        // Ajoute un event listener on clic sur le bouton plus
         plusBtn.on('click', function(){
+            // Incrémente la valeur de l'input
             currentVal++;
+            // Met à jour la valeur de l'input
             $('.custom-qty-input-{{section.id}}').val(currentVal);
+            // Active le bouton minus si la nouvelle valeur est supérieure à 1
             if (currentVal > 1) {
                 $('.custom-minus-btn[name="minus"]').attr('disabled', false);
             }
         });
+        // Ajoute un event listener on clic sur le bouton minus
         minusBtn.on('click', function(){
+            // Décrémente la valeur de l'input
             currentVal--;
+            // Met à jour la valeur de l'input
             $('.custom-qty-input-{{section.id}}').val(currentVal);
+            // Désactive le bouton minus si la nouvelle valeur est égale à 1
             if (currentVal == 1) {
                 $('.custom-minus-btn[name="minus"]').attr('disabled', true);
             }

@@ -1,4 +1,4 @@
-var slideIndex = 1;
+let slideIndex = 1;
 displaySlide(slideIndex);
 
 // Fonction pour changer de slide
@@ -13,10 +13,10 @@ function activeSlide(n) {
 
 // Fonction pour changer de slide en cliquant sur les flèches
 function displaySlide(n) {
-  var i;
+  let i;
   // On récupère tous les slides et les miniatures
-  var totalslides = document.getElementsByClassName("slide");
-  var totaldots = document.getElementsByClassName("custom-thumbnail");
+  const totalslides = document.getElementsByClassName("slide");
+  const totaldots = document.getElementsByClassName("custom-thumbnail");
 
   // Si on dépasse le nombre de slides, on revient au premier
   if (n > totalslides.length) {

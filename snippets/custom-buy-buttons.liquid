@@ -49,7 +49,7 @@
           title="product-variant-id-{{ section.id }}"
         >
         <div class="product-form__buttons">
-          <!-- Logique d'origine pour verifier les regles de quantité -->
+          <!-- Logique du theme d'origine pour verifier les regles de quantité -->
           {%- liquid
             assign check_against_inventory = true
             if product.selected_or_first_available_variant.inventory_management != 'shopify' or  product.selected_or_first_available_variant.inventory_policy == 'continue'
