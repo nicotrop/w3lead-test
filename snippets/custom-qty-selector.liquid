@@ -1,0 +1,99 @@
+{% style %}
+    .custom-product-qty {
+        border: 1px solid #000;
+        padding: 5px;
+        border-radius: 45px;
+    }
+    .custom-qty-selector {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 40px;
+    }
+    .custom-plus-btn .custom-minus-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .custom-plus-btn:hover .custom-minus-btn:hover {
+        cursor: pointer;
+    }
+    .custom-qty-input-{{section.id}} {
+        width: fit-content;
+        padding: 10px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: #000;
+        border: none;
+        outline: none;
+    }
+    .custom-qty-selector svg {
+        width: 10px;
+        height: 10px;
+        color: #000;
+    }
+{% endstyle %}
+
+<div class="custom-product-qty">
+    <div class="custom-qty-selector">
+        <button
+            class="custom-minus-btn"
+            name="minus"
+            type="button"
+            >
+            <span class="visually-hidden">
+            {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+            </span>
+            {% render 'icon-minus' %}
+        </button>
+        <input
+            class="custom-qty-input-{{section.id}}"
+            type="text"
+            name="quantity"
+            id="Quantity-{{ section.id }}"
+            value="{{ product.selected_or_first_available_variant.quantity_rule.min | default: 1 }}"
+            form="{{ product_form_id }}" 
+        />
+        <button
+        class="custom-plus-btn"
+        name="plus"
+        type="button">
+            <span class="visually-hidden">
+                {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+            </span>
+            {% render 'icon-plus' %}
+        </button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        let currentVal = $('.custom-qty-input-{{section.id}}').val();
+        const minusBtn = $('.custom-minus-btn[name="minus"]');
+        const plusBtn = $('.custom-plus-btn[name="plus"]');
+        if (currentVal == 1) {
+            $('.custom-minus-btn[name="minus"]').attr('disabled', true);
+        }
+        plusBtn.on('click', function(){
+            currentVal++;
+            $('.custom-qty-input-{{section.id}}').val(currentVal);
+            if (currentVal > 1) {
+                $('.custom-minus-btn[name="minus"]').attr('disabled', false);
+            }
+        });
+        minusBtn.on('click', function(){
+            currentVal--;
+            $('.custom-qty-input-{{section.id}}').val(currentVal);
+            if (currentVal == 1) {
+                $('.custom-minus-btn[name="minus"]').attr('disabled', true);
+            }
+        });
+    });
+</script>
