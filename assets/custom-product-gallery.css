@@ -1,8 +1,8 @@
 .custom-gallery-wrapper {
   display: flex;
   flex-direction: column;
-  height: 430px;
   width: 100vw;
+  margin-bottom: 1rem;
 }
 
 .custom-img {
@@ -14,8 +14,8 @@
 
 /* Image-container design */
 .custom-image-container {
-  height: 80%;
   width: 100%;
+  max-height: 425px;
   position: relative;
   margin-bottom: 1rem;
   position: relative;
@@ -68,16 +68,17 @@
   row-gap: var(--grid-mobile-vertical-spacing);
 }
 
-@media screen and (min-width: 450px) {
+@media screen and (min-width: 555px) {
   .custom-gallery-wrapper {
     height: fit-content;
-    width: 55%;
+    width: 100%;
   }
   .thumbnail-wrapper {
     height: fit-content;
   }
   .custom-image-container {
     height: fit-content;
+    max-height: none;
   }
   .custom-grid {
     flex-wrap: nowrap;
@@ -87,6 +88,11 @@
 }
 
 @media screen and (min-width: 990px) {
+
+  .custom-gallery-wrapper {
+    width: 55%;
+  }
+
   .custom-grid {
     gap: 28px;
   }

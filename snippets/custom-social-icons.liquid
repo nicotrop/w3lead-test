@@ -2,15 +2,23 @@
   {%- if settings.social_facebook_link != blank -%}
     <li class="list-social__item">
       <a href="{{ settings.social_facebook_link }}" class="link list-social__link" >
-        {%- render 'icon-custom-fb' -%}
+        {%- render 'custom-icon-facebook2' -%}
         <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
       </a>
     </li>
   {%- endif -%}
+  {%- if settings.social_tiktok_link != blank -%}
+  <li class="list-social__item">
+    <a href="{{ settings.social_tiktok_link }}" class="link list-social__link" >
+      {%- render 'custom-icon-tiktok2' -%}
+      <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
+    </a>
+  </li>
+{%- endif -%}
   {%- if settings.social_instagram_link != blank -%}
     <li class="list-social__item">
       <a href="{{ settings.social_instagram_link }}" class="link list-social__link" >
-        {%- render 'icon-custom-ig' -%}
+        {%- render 'custom-icon-insta2' -%}
         <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
       </a>
     </li>
@@ -20,14 +28,6 @@
       <a href="{{ settings.social_youtube_link }}" class="link list-social__link" >
         {%- render 'icon-youtube' -%}
         <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
-      </a>
-    </li>
-  {%- endif -%}
-  {%- if settings.social_tiktok_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_tiktok_link }}" class="link list-social__link" >
-        {%- render 'icon-tiktok' -%}
-        <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
       </a>
     </li>
   {%- endif -%}
