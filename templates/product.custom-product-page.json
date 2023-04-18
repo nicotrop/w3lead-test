@@ -27,7 +27,7 @@
           "type": "buy_buttons",
           "settings": {
             "show_dynamic_checkout": false,
-            "pickup_in_store": true
+            "pickup_in_store": false
           }
         },
         "afbb427d-a503-4554-8255-999f9b7892ed": {
