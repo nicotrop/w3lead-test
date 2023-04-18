@@ -56,11 +56,6 @@
             "content": "<p>{{ product.metafields.custom.shipping | metafield_tag }}<\/p>",
             "page": ""
           }
-        },
-        "e560108a-daf2-4d2a-a531-7eb204aba413": {
-          "type": "quantity_selector",
-          "settings": {
-          }
         }
       },
       "block_order": [
@@ -71,8 +66,7 @@
         "buy_buttons",
         "afbb427d-a503-4554-8255-999f9b7892ed",
         "38316236-8556-4ae7-9f70-73f13da4d9aa",
-        "fa559c6a-256b-42dd-8ec9-c31db69ebea5",
-        "e560108a-daf2-4d2a-a531-7eb204aba413"
+        "fa559c6a-256b-42dd-8ec9-c31db69ebea5"
       ],
       "settings": {
       }
