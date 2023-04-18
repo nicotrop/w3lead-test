@@ -92,8 +92,8 @@
     "custom-newsletter": {
       "type": "custom-newsletter",
       "settings": {
-        "heading": "Newsletter",
-        "subheading": "Subscribe to our newsletter and get 10% off your first purchase",
+        "heading": "Inscrivez-vous à notre newsletter",
+        "subheading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi augue dui, ornare mattis hendrerit nec, consequat",
         "placehoder_text": "Adresse e-mail"
       }
     },
