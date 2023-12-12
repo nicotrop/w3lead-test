@@ -2,27 +2,11 @@
 {{ 'custom-footer.css' | asset_url | stylesheet_tag }}
 
 {% style %}
-  /* Classes CSS du theme calculées en fonction des paramètres de la section */
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}
-    px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}
-    px;
+  .custom-footer-width {
+    margin: 0;
+    padding: 32px 0;
   }
 
-  @media screen and (min-width: 750px) {
-    .footer {
-      margin-top: {{ section.settings.margin_top }}
-      px;
-    }
-
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}
-      px;
-      padding-bottom: {{ section.settings.padding_bottom }}
-      px;
-    }
-  }
 {% endstyle %}
 
 {% liquid
@@ -36,81 +20,81 @@
   endif
 %}
 
-  <footer class="footer page-width section-{{ section.id }}-padding">
-  <!-- Affichage de la main section du footer -->
-  <div class="custom-footer-container">
-    {%- for block in section.blocks -%}
-      {%- case block.type -%}
-        {%- when 'image' -%}
-          <div class="custom-footer-logo-container">
-          <div style="max-width: min(100%, {{ block.settings.image_width }}px);">
-            <!-- Affichage de l'image avec une taille personalisée -->
-            <img
-              src="{{ block.settings.image | img_url:  width: block.settings.image_width }}"
-              alt="{{ block.settings.image.alt | escape }}"
-              loading="lazy"
-              width="{{ block.settings.image_width }}">
-          </div>
-          <!-- Si le compte contient des liens vers les réseaux sociaux, on les affiche -->
-          {% if has_social_icons == true %}
-            {% render 'custom-social-icons' %}
-          {% endif %}
-        </div>
-        {%- when 'link_list' -%}
-        {%- if block.settings.menu != blank -%}
-          <nav class="custom-footer-link-container">
-            <!-- Affichage du menu selectionné -->
-            {%- for link in block.settings.menu.links -%}
-              <ul class="list-unstyled">
-                <li class="custom-footer-link-header">
-                  <!-- Lien vers la page -->
-                  <a href="{{ link.url }}" title="{{ link.title }}">
-                    {{ link.title }}
-                  </a>
-                </li>
-                <!-- Si le lien contient des sous-liens, on les affiche -->
-                {% if link.links != blank %}
-                  <ul class="list-unstyled">
-                    <!-- For loop pour parcourir tout les sous-liens -->
-                    {%- for child_link in link.links -%}
-                      <li class="custom-footer-links">
-                        <!-- Lien vers la page -->
-                        <a href="{{ child_link.url }}" title="{{ child_url.title }}">
-                          {{ child_link.title }}
-                        </a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                {% endif %}
-              </ul>
-            {%- endfor -%}
-          </nav>
-        {%- endif -%}
-      {%- endcase -%}
-    {%- endfor -%}
-  </div>
-  <!-- Affichage du bottom_menu -->
-  <div class="custom-bottom-footer-wrapper">
-    {%- if section.settings.bottom_menu != blank -%}
-      <nav class="custom-bottom-footer-link-container">
-        <!-- For loop pour parcourir tout les liens du bottom menu -->
-        {%- for link in section.settings.bottom_menu.links -%}
-          <ul class="list-unstyled">
-            <li class="custom-footer-links">
-              <!-- Lien vers la page -->
-              <a href="{{ link.url }}">
-                {{ link.title }}
-              </a>
-            </li>
-          </ul>
-        {%- endfor -%}
-      </nav>
-    {%- endif -%}
-    <!-- Affichage du texte de signature customisable -->
-    <span class="custom-bottom-signature">
-      {{ section.settings.signature_text }}
-    </span>
-  </div>
+  <footer class="footer custom-footer-width section-{{ section.id }}-padding custom-border-top">
+    <!-- Affichage de la main section du footer -->
+    <div class="custom-footer-container">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'image' -%}
+            <div class="custom-footer-logo-container">
+              <div style="max-width: min(100%, {{ block.settings.image_width }}px);">
+                <!-- Affichage de l'image avec une taille personalisée -->
+                <img
+                  src="{{ block.settings.image | img_url:  width: block.settings.image_width }}"
+                  alt="{{ block.settings.image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ block.settings.image_width }}">
+              </div>
+              <!-- Si le compte contient des liens vers les réseaux sociaux, on les affiche -->
+              {% if has_social_icons == true %}
+                {% render 'custom-social-icons' %}
+              {% endif %}
+            </div>
+          {%- when 'link_list' -%}
+          {%- if block.settings.menu != blank -%}
+            <nav class="custom-footer-link-container">
+              <!-- Affichage du menu selectionné -->
+              {%- for link in block.settings.menu.links -%}
+                <ul class="list-unstyled custom-link-group">
+                  <li class="custom-footer-link-header">
+                    <!-- Lien vers la page -->
+                    <a href="{{ link.url }}" title="{{ link.title }}">
+                      {{ link.title }}
+                    </a>
+                  </li>
+                  <!-- Si le lien contient des sous-liens, on les affiche -->
+                  {% if link.links != blank %}
+                    <ul class="list-unstyled">
+                      <!-- For loop pour parcourir tout les sous-liens -->
+                      {%- for child_link in link.links -%}
+                        <li class="custom-footer-links">
+                          <!-- Lien vers la page -->
+                          <a href="{{ child_link.url }}" title="{{ child_url.title }}">
+                            {{ child_link.title }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {% endif %}
+                </ul>
+              {%- endfor -%}
+            </nav>
+          {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+    <!-- Affichage du bottom_menu -->
+    <div class="custom-bottom-footer-wrapper">
+      {%- if section.settings.bottom_menu != blank -%}
+        <nav class="custom-bottom-footer-link-container">
+          <!-- For loop pour parcourir tout les liens du bottom menu -->
+          {%- for link in section.settings.bottom_menu.links -%}
+            <ul class="list-unstyled">
+              <li class="custom-footer-links custom-grey-links">
+                <!-- Lien vers la page -->
+                <a href="{{ link.url }}">
+                  {{ link.title }}
+                </a>
+              </li>
+            </ul>
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+      <!-- Affichage du texte de signature customisable -->
+      <span class="custom-grey-links">
+        {{ section.settings.signature_text }}
+      </span>
+    </div>
 </footer>
 
 

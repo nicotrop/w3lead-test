@@ -1,9 +1,9 @@
 <!-- Import des fichiers CSS et reutilisation de class du Themes -->
 <section
   id="MainProduct-{{ section.id }}"
-  class="page-width section-{{ section.id }}-padding"
+  class="custom-page-width"
   data-section="{{ section.id }}"
-  style="position: relative;">
+  >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'custom-product-info.css' | asset_url | stylesheet_tag }}
@@ -26,13 +26,46 @@
       }
     }
 
+    .custom-grid-item {
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    @media screen and (min-width: 450px) {
+      .custom-grid-item {
+        width: 50%;
+        min-width: 257px;
+        max-width: 497px;
+      }
+    }
+
+    @media screen and (min-width: 990px) {
+      .custom-grid-item {
+        width: 497px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+
+    .custom-page-width {
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    @media screen and (min-width: 750px) {
+      .custom-page-width {
+        padding: 0 64px;
+      }
+    }
     .custom-subtitle {
       font-weight: 600;
       font-size: 12px;
       line-height: 15px;
+      margin-top: 14px;
       text-transform: uppercase;
-      margin: 14px 0 0 0;
       padding: 0;
+      color: #2F2F2F;
     }
 
     .custom-btn-wrapper {
@@ -49,13 +82,14 @@
   <!-- Import de fancybox JS -->
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+  <!-- Import de axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-
-  <div class="product product--large custom-grid">
+  <div class="product product--large custom-grid custom-product-wrapper">
     <!-- Snippet pour la gallerie photo -->
     {% render 'custom-product-gallery' %}
     <!-- Reste du code pour les informations concernant le produit -->
-    <div class="custom-product-wrapper custom-grid-item">
+    <div class="custom-grid-item">
 
       <!-- Reutilisation du webcomponents avec l'utilisation d'une nouvelle classe pour l'effet sticky -->
       <product-info
@@ -69,18 +103,18 @@
         {%- for block in section.blocks -%}
           {%- case block.type -%}
 
-            <!-- Customization du block type pour le subtitle  -->
+            <!-- Customization du block pour le titre avec le coeur  -->
+            {%- when 'title' -%}
+            <div class="custom-title-container">
+              <h1 class="custom-title">{{ product.title | split: '-' | last }}</h1>
+              {% render 'icon-custom-heart' %}
+            </div>
+
+            <!-- Customization du block pour le subtitle  -->
             {%- when 'subtitle' -%}
             <p class="custom-subtitle">
               {{- product.title | split: '-' | first -}}
             </p>
-
-            <!-- Customization du block type pour le titre avec le coeur  -->
-            {%- when 'title' -%}
-            <div class="custom-title-container" aria-label="Product title with heart icon">
-              <h1 class="custom-title">{{ product.title | split: '-' | last }}</h1>
-              {% render 'icon-custom-heart' %}
-            </div>
 
             <!-- Snippet pour montrer le prix  -->
             {%- when 'price' -%}
@@ -90,118 +124,31 @@
             </div>
 
             <!-- Section pour l'onglet depliant -->
-            {%- when 'collapsible_tab' -%}
-              <div class="coll-box" aria-expanded="false">
-                <div class="coll-box-header">
-                  <!-- Si l'utilisateur selectionne de montrer la description sur cet onglet?
-                   description en titre et description en texte  -->
-                  <!-- Sinon, on affiche le contenu de son input en titre et en texte  -->
-                  {% if block.settings.product_description == true %}
-                    <h3>Description</h3>
-                  {% else %}
-                    <h3>{{ block.settings.heading | default: block.settings.page.title }}</h3>
-                  {% endif %}
-                  {% render 'icon-custom-chevron-down' %}
+              {%- when 'collapsible_tab' -%}
+                <div class="coll-box" aria-expanded="false">
+                  <div class="coll-box-header">
+                    <!-- Si l'utilisateur selectionne de montrer la description sur cet onglet?
+                     description en titre et description en texte  -->
+                    <!-- Sinon, on affiche le contenu de son input en titre et en texte  -->
+                    {% if block.settings.product_description == true %}
+                      <h3>Description</h3>
+                    {% else %}
+                      <h3>{{ block.settings.heading | default: block.settings.page.title }}</h3>
+                    {% endif %}
+                    {% render 'icon-custom-chevron-down' %}
+                  </div>
+                  <div class="coll-box-text">
+                    {% if block.settings.product_description == true %}
+                      <p>{{ product.description }}</p>
+                    {% else %}
+                      <p>{{ block.settings.content }} {{ block.settings.page.content }}</p>
+                    {% endif %}
+                  </div>
                 </div>
-                <div class="coll-box-text">
-                  {% if block.settings.product_description == true %}
-                    <p>{{ product.description }}</p>
-                  {% else %}
-                    <p>{{ block.settings.content }} {{ block.settings.page.content }}</p>
-                  {% endif %}
-                </div>
-              </div>
 
               <!-- Je n'ai pas modifié le quantity_selector par manque de temps et d'experience -->
-              {%- when 'quantity_selector' -%}
-                <div
-                id="Quantity-Form-{{ section.id }}"
-                class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
-                {{ block.shopify_attributes }}>
-                {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
-                <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
-                  {{ 'products.product.quantity.label' | t }}
-                  <span class="quantity__rules-cart no-js-hidden{% if cart_qty == 0 %} hidden{% endif %}">
-                    <span class="loading-overlay hidden">
-                      <span class="loading-overlay__spinner">
-                        <svg
-                          aria-hidden="true"
-                          focusable="false"
-                          class="spinner"
-                          viewBox="0 0 66 66"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <circle
-                            class="path"
-                            fill="none"
-                            stroke-width="6"
-                            cx="33"
-                            cy="33"
-                            r="30"></circle>
-                      </svg>
-                    </span>
-                  </span>
-                  <span>({{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}})</span>
-                </span>
-              </label>
-              <quantity-input class="quantity">
-                <button
-                  class="quantity__button no-js-hidden"
-                  name="minus"
-                  type="button">
-                  <span class="visually-hidden">
-                    {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
-                  </span>
-                  {% render 'icon-minus' %}
-                </button>
-                <input
-                  class="quantity__input"
-                  type="number"
-                  name="quantity"
-                  id="Quantity-{{ section.id }}"
-                  data-cart-quantity="{{ cart_qty }}"
-                  data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                  min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                  {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
-                  data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                  max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                  {% endif %}
-                  step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
-                  value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                  form="{{ product_form_id }}" />
-                <button
-                  class="quantity__button no-js-hidden"
-                  name="plus"
-                  type="button">
-                  <span class="visually-hidden">
-                    {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
-                  </span>
-                  {% render 'icon-plus' %}
-                </button>
-              </quantity-input>
-              <div class="quantity__rules caption no-js-hidden">
-                {%- if product.selected_or_first_available_variant.quantity_rule.increment > 1 -%}
-                  <span class="divider">
-                    {{-
-                        'products.product.quantity.multiples_of'
-                      | t: quantity: product.selected_or_first_available_variant.quantity_rule.increment -}}
-                  </span>
-                {%- endif -%}
-                {%- if product.selected_or_first_available_variant.quantity_rule.min > 1 -%}
-                  <span class="divider">
-                    {{-
-                        'products.product.quantity.minimum_of'
-                      | t: quantity: product.selected_or_first_available_variant.quantity_rule.min -}}
-                  </span>
-                {%- endif -%}
-                {%- if product.selected_or_first_available_variant.quantity_rule.max != null -%}
-                  <span class="divider">
-                    {{-
-                        'products.product.quantity.maximum_of'
-                      | t: quantity: product.selected_or_first_available_variant.quantity_rule.max -}}
-                  </span>
-                {%- endif -%}
-              </div>
-            </div>
+            {%- when 'quantity_selector' -%}
+            {% render 'custom-qty-selector', product: product, product_form_id: product_form_id, section_id: section.id %}
 
             <!-- Section pour le variant selector -->
             {%- when 'variant_picker' -%}
@@ -228,9 +175,197 @@
       </product-info>
     </div>
   </div>
+
   <!-- Bouton back to top fixed au bas droite de la page -->
-  {% render 'custom-back-to-top-btn' %}
+  {% comment %} {% render 'custom-back-to-top-btn' %} {% endcomment %}
 </section>
+
+<!-- Script pour le variant picker -->
+<script>
+  $(document).ready( () => {
+    // Récupère les données du produit
+    const variantData = JSON.parse($('[data-section="{{section.id}}"] script[type="application/json"]').html());
+    // Récupère le div qui contient les prix
+    const priceLabel = $("div#price-label-{{section.id}}");
+    // Récupère les prix
+    const regPrice = priceLabel.find("#custom-reg-price");
+    const compPrice = priceLabel.find("#custom-comp-price");
+    // Récupère le badge de promo
+    const saleBadge = priceLabel.find("#custom-disc-badge");
+    // Récupère le bouton d'ajout au panier
+    const atcBtn = $('#ProductSubmitButton-{{section.id}}');
+    // Récupère le prix du bouton d'ajout au panier
+    const atcPrice = atcBtn.find('#custom-atc-price');
+    // Récupère les valeurs des options selectionnées
+    let curr_option_1 = $('fieldset[data-option="option-2"] input[checked]')[0]?.value ?? null;
+    let curr_option_2 = $('fieldset[data-option="option-1"] input:checked')[0]?.value ?? null;
+    let curr_option_3 = $('fieldset[data-option="option-3"] input[checked]')[0]?.value ?? null;
+
+    // Fonction qui trouve la variante actuelle et retourne un objet avec les infos de la variante
+    const findCurrentVariant = (curr_option_1, curr_option_2, curr_option_3) => {
+      const variant = variantData.find((variant) => {
+        return(variant.option1 === curr_option_1 && variant.option2 === curr_option_2 && variant.option3 === curr_option_3);
+      });
+
+      const curr_variant = {
+        id: variant.id,
+        price: variant.price,
+        compare_at_price: variant.compare_at_price,
+        available: variant.available,
+        qtyRule: variant.qtyInputAtt,
+      };
+
+      return curr_variant;
+    };
+
+    // Fonction qui met à jour les tailles disponibles
+    const updateSizeOptions = () => {
+      const allCurrentSizes = $('fieldset[data-option="option-2"] input');
+      allCurrentSizes.each((index, sizeInput)=>{
+        const $sizeInput = $(sizeInput);
+        const sizeValue = $sizeInput.val();
+        const sizeVariant = findCurrentVariant(sizeValue, curr_option_2, curr_option_3);
+        if(!sizeVariant.available){
+          $sizeInput.attr('disabled', true);
+        } else {
+          $sizeInput.attr('disabled', false);
+        }
+      });
+    }
+
+    // Récupère la variante actuelle
+    let curr_variant = findCurrentVariant(curr_option_1, curr_option_2, curr_option_3);
+    //On mount, on récupère toutes les tailles pour disable les valeurs non disponibles
+    updateSizeOptions();
+
+    // Récupère le variant selector
+    const variantPicker = $('variant-radios[data-section="{{section.id}}"] fieldset');
+
+    // Pour chaque option du variant selector
+    variantPicker.each((index, elem) => {
+      const $elem = $(elem);
+      // Récupère l'input avec la valeur de l'option
+      const $input = $elem.find("input");
+
+      // Ecoute les changements d'option
+      $input.on("change", function() {
+        // Récupère la valeur de l'option
+        const var_val = $(this).val();
+        const option = $elem.data("option");
+
+        // Met à jour la valeur de l'option, inversé pour prendre en compte les options inversées
+        if (option === "option-2") {
+          curr_option_1 = var_val;
+        } else if (option === "option-1") {
+          curr_option_2 = var_val;
+        } else if (option === "option-3") {
+          curr_option_3 = var_val;
+        }
+
+        // Si l'option est la taille, on récupère toutes les tailles pour disable les valeurs non disponibles
+        if (option === "option-1") {
+          updateSizeOptions();
+        }
+
+        // Récupère la variante actuelle
+        curr_variant = findCurrentVariant(curr_option_1, curr_option_2, curr_option_3);
+
+        // Si la variante n'est pas disponible disable le bouton d'ajout au panier
+        if (!curr_variant.available) {
+          atcBtn.attr("disabled", true);
+        } else {
+          atcBtn.attr("disabled", false);
+        }
+
+        // Formate les prix
+        const price = curr_variant.price / 100;
+        const compare_at_price = curr_variant.compare_at_price / 100;
+
+        // Ajoute la devise et supprime les centimes si ils sont à 0
+        let formattedPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(price);
+        if (formattedPrice.split(',')[1].includes('00')) {
+          formattedPrice = formattedPrice.split(',')[0] + ' €';
+          }
+          
+        let formattedCompareAtPrice = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(compare_at_price);
+        if (formattedCompareAtPrice.split(',')[1].includes('00')) {
+          formattedCompareAtPrice = formattedCompareAtPrice.split(',')[0] + ' €';
+          }
+
+        // Est-ce que le produit est en promo ?
+        let onSale = compare_at_price > price;
+
+        let discount;
+
+        // Si le produit est en promo, calcul le pourcentage de réduction
+        // Arrondi à l'entier le plus proche
+        if (onSale) {
+          discount = Math.round(((compare_at_price - price) / compare_at_price) * 100) + '%';
+        }
+ 
+        // Affiche les nouvelles valeurs pour le prix et le badge de promo
+          regPrice.text(formattedPrice);
+          compPrice.text(formattedCompareAtPrice);
+          atcPrice.text(formattedPrice);
+          saleBadge.text(discount);
+      });
+
+    });
+
+    const getQty = () => {
+      // On recupère le champs de saisie de la quantité
+      let qtyInput = $('.custom-qty-input-{{section.id}}');
+      let currentQty;
+      // Si est null, on assigne 1 a la variable currentQty
+      if (qtyInput === null) {
+        currentQty = 1;
+      // Sinon on assigne la valeur du champs de saisie
+      } else {
+        currentQty = qtyInput.val();
+      }
+      return currentQty;
+    }
+
+    //Récupère la quantité
+    const currentQty = $('.custom-qty-input-{{section.id}}').val();
+
+    //Récupére le loading spinner du bouton d'ajout au panier
+    const loadingSpinner = $('.loading-overlay__spinner');
+
+    //Requette ajax pour ajouter au panier avec axios
+    atcBtn.on('click', async function(e) {
+      // Empêche le rechargement de la page
+      e.preventDefault();
+      console.log("Ajout au panier", curr_variant.id);
+      //Récupère la quantité
+      const itemQty = getQty();
+      //Affiche le loading spinner
+      loadingSpinner.removeClass('hidden');
+      //Cache le contenu du bouton
+      atcBtn.find('.custom-atc-btn-content').hide();
+      //Requette ajax pour ajouter au panier
+      await axios.post('/cart/add.js', {
+        quantity: itemQty,
+        id: curr_variant.id
+      }).then(function (response) {
+        //Affiche la réponse dans la console
+        console.log(response);
+      }).catch(function (error) {
+        //Affiche l'erreur dans la console
+        console.log(error);
+      }).finally(function () {
+        //Cache le loading spinner
+        loadingSpinner.addClass('hidden');
+        //Affiche le contenu du bouton
+        atcBtn.find('.custom-atc-btn-content').show();
+        //Recharge la page pour mettre à jour la bulle du panier
+        location.reload();
+      });
+    });
+    
+
+  });
+</script>
 
 {% schema %}
   {

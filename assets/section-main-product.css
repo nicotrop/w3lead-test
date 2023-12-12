@@ -1573,3 +1573,13 @@ a.product__text {
     display: none;
   }
 }
+
+.custom-product-wrapper {
+  position: relative; 
+}
+
+@media screen and (min-width: 990px) {
+  .custom-product-wrapper {
+    margin-top: 64px;
+  }
+}

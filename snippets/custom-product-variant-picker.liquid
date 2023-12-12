@@ -1,4 +1,11 @@
 {% style %}
+
+  .custom-variant-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
   .custom-variant-selector-wrapper {
     margin: 24px 0 0;
   }
@@ -14,27 +21,34 @@
 
   .custom-variant-selector-wrapper a {
     color: #2F2F2F;
+    font-weight: 400;
     font-size: 12px;
-    font-weight: 700;
-    line-height: 14.52px;
-    margin-top: -5px;
-    text-decoration: underline;
+    line-height: 15px;
+    text-align: right;
+    text-decoration-line: underline;
+    margin-top: 8px;
   }
 {% endstyle %}
+
+{% comment %} Ajuster l'ordre des options {% endcomment %}
+{% assign productOptions = product.options_with_values | reverse  %}
 
 <!-- Utilisation du composant "variant-radios" pour afficher les options de variantes d'un produit -->
 <div class="custom-variant-selector-wrapper">
   <variant-radios
     id="variant-radios-{{ section.id }}"
-    class="no-js-hidden"
+    class="no-js-hidden custom-variant-wrapper"
     aria-labelledby="variant-radios-label-{{ section.id }}"
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
-  >
+    >
     <!-- Loop sur les options de produit pour créer un champ de saisie pour chaque option -->
-    {%- for option in product.options_with_values -%}
+    {%- for option in productOptions -%}
       <!-- Fieldset pour maintenir le code JS et associer chaque champ de saisie à son option -->
-      <fieldset class="js product-form__input custom-form-variant" role="radiogroup">
+      <fieldset
+        class="js custom-product-form__input custom-form-variant"
+        role="radiogroup"
+        data-option="option-{{ forloop.index }}">
         <legend class="custom-form-label">{{ option.name }}</legend>
         <!-- Le code pour afficher les boutons de chaque option en utilisant un snippet réutilisable -->
         {% render 'custom-product-variant-options', product: product, option: option %}

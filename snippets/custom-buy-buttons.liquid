@@ -13,6 +13,12 @@
     align-items: center;
     gap: 1rem;
   }
+
+  @media screen and (min-width: 990px) {
+    .product-form__buttons {
+      max-width: none;
+    }
+  }
 {% endstyle %}
 
 <div>
@@ -38,12 +44,12 @@
           name="id"
           value="{{ product.selected_or_first_available_variant.id }}"
           disabled
-          id="product-variant-id-{{ section_id }}"
+          id="product-variant-id-{{ section.id }}"
           class="product-variant-id"
-          title="product-variant-id-{{ section_id }}"
+          title="product-variant-id-{{ section.id }}"
         >
         <div class="product-form__buttons">
-          <!-- Logique d'origine pour verifier les regles de quantité -->
+          <!-- Logique du theme d'origine pour verifier les regles de quantité -->
           {%- liquid
             assign check_against_inventory = true
             if product.selected_or_first_available_variant.inventory_management != 'shopify' or  product.selected_or_first_available_variant.inventory_policy == 'continue'
@@ -55,7 +61,7 @@
           -%}
           <!-- Bouton add to cart -->
           <button
-            id = "ProductSubmitButton-{{ section_id }}"
+            id = "ProductSubmitButton-{{ section.id }}"
             type="submit"
             name="add"
             class="product-form__submit button button--full-width custom-button"
@@ -78,7 +84,7 @@
               <!-- Montre aussi le prix si le variant est disponible -->
               {%- unless product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
               <!-- Montre aussi le prix -->
-              <span aria-label="Product price">
+              <span id="custom-atc-price" aria-label="Product price">
                 {{ product.price | money_with_currency }}
               </span>
               {%- endunless -%}

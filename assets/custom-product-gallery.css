@@ -1,8 +1,8 @@
 .custom-gallery-wrapper {
   display: flex;
   flex-direction: column;
-  height: 430px;
   width: 100vw;
+  margin-bottom: 1rem;
 }
 
 .custom-img {
@@ -14,8 +14,8 @@
 
 /* Image-container design */
 .custom-image-container {
-  height: 80%;
   width: 100%;
+  max-height: 425px;
   position: relative;
   margin-bottom: 1rem;
   position: relative;
@@ -68,22 +68,39 @@
   row-gap: var(--grid-mobile-vertical-spacing);
 }
 
-@media screen and (min-width: 450px) {
+@media screen and (min-width: 555px) {
   .custom-gallery-wrapper {
     height: fit-content;
-    /* height: 700px; */
-    width: 55%;
+    width: 100%;
   }
   .thumbnail-wrapper {
     height: fit-content;
   }
   .custom-image-container {
     height: fit-content;
+    max-height: none;
   }
   .custom-grid {
     flex-wrap: nowrap;
     column-gap: 0;
     gap: 2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+
+  .custom-gallery-wrapper {
+    width: 55%;
+  }
+
+  .custom-grid {
+    gap: 28px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .custom-grid {
+    gap: 128px;
   }
 }
 
@@ -116,23 +133,20 @@ button {
   opacity: 1;
 }
 
-@media screen and (min-width: 1020px) {
-  .custom-gallery-wrapper {
-    height: 700px;
-  }
-}
-
-@media screen and (min-width: 990px) {
+@media screen and (min-width: 1110px) {
   .custom-thumbnail {
     width: 100%;
+    height: 135px;
   }
+  /* Modification de la largeur sur desktop */
   .custom-gallery-wrapper {
     display: flex;
     flex-direction: row-reverse;
     justify-items: start;
-    gap: 2rem;
-    height: 700px;
+    gap: 24px;
     overflow: hidden;
+    min-width: 687px;
+    height: 859.5px;
   }
 
   .thumbnail-wrapper {
@@ -152,7 +166,7 @@ button {
     justify-content: center;
     align-items: center;
     height: fit-content;
-    width: 100%;
+    width: 90px;
     gap: 8px;
   }
   .image-container {

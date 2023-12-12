@@ -1,28 +1,63 @@
 {% style %}
   /* Style commun */
-  .product-form__input input[type="radio"] + label,
-  .custom-size-input,
-  .product-form__input input[type="radio"]:checked + label,
-  .custom-color-input {
+  .custom-product-form__input input[type="radio"] + label {
     width: 32px;
     height: 32px;
-    border: 1px solid #000;
     border-radius: 50%;
     display: inline-flex;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-size: 12px;
+    transition: border var(--duration-short) ease;
+    cursor: pointer;
   }
+  
+
+  /* Cacher les champs de saisies radio */
+  .custom-product-form__input input[type="radio"] {
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  position: absolute;
+  height: 1px;
+  width: 1px;
+ }
+
+ /* Défaire le style de l'element fieldset par default */
+ .custom-product-form__input {
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+  border: none;
+}
 
   /* Style pour les boutons tailles selectionnés */
-  .product-form__input input[type="radio"]:checked + label.custom-size-input {
+  .custom-product-form__input input[type="radio"]:checked + label.custom-size-input {
     background-color: black;
+    color: white;
+  }
+
+  /* Style pour les boutons tailles non-selectionnés */
+  .custom-product-form__input input[type="radio"]:not(:checked) + label.custom-size-input {
+    border: 1px solid black;
+    color: black;
+  }
+
+  /* Style pour les boutons tailles et couleurs disabled */
+  .custom-product-form__input input[type="radio"]:disabled + label {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
   /* Style pour les boutons couleurs selectionnés */
-  .product-form__input input[type=radio]:checked + label.custom-color-input {
+  .custom-product-form__input input[type=radio]:checked + label.custom-color-input {
     border-block-start-color: white;
     box-shadow: inset 0 0 0 4px #fff;
-    border-color: black;
+    border: 1px solid black;
   }
+  
 {% endstyle %}
 
 {%- liquid
@@ -44,30 +79,32 @@
   {% endfor %}
 {% endcapture %}
 
-<!-- Creation d'un array avec toute les couleurs et suppression des doublons dans la liste des couleurs -->
+<!-- Creation d'un array avec toute les couleurs -->
 {% assign color_arr = color_list | split: ' ' %}
 
 
-<!-- For loop sur toutes les valeurs des options disponible -->
+<!-- For loop sur toutes les valeurs de l'option actuelle -->
 {%- for value in option.values -%}
 
-  <!-- Stocker le hex code de la couleur situé à l'index actuel -->
-  {% assign current_color = color_arr[forloop.index0] %}
+  <!-- Si le nom de l'option est couleur -->
+  {% if option.name == 'Couleur' %} 
+    <!-- On stocke le hex code de la couleur situé à l'index actuel -->
+    {% assign current_color = color_arr[forloop.index0] %}
+  {% endif %}
 
   <input
-    type="radio"
+  type="radio"
     id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
     name="{{ option.name }}"
     value="{{ value | escape }}"
     form="{{ product_form_id }}"
     {% if option.selected_value == value %}
-      checked
-      aria-checked="true"
+    checked
+    aria-checked="true"
     {% else %}
-      aria-checked="false"
+    aria-checked="false"
     {% endif %}
-      aria-label="{{ value }}"
-  >
+    aria-label="{{ value }}">
   <!-- Si le nom de l'option n'est pas couleur -->
   {% unless option.name == "Couleur" %}
     <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="custom-size-input">
@@ -78,7 +115,6 @@
     <label
       for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
       style="background-color: {{ current_color }};"
-      class="custom-color-input">
-    </label>
+      class="custom-color-input"></label>
   {% endunless %}
 {%- endfor -%}
